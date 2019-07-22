@@ -15,11 +15,61 @@ module SYM {
             // graphics.endFill();
 
 
-            // SYMMETRY
-            let style = { font: Helpers.font(120, 'KeepCalm'), fill: "#E84A5F", align: "center" };
-            let title = this.game.add.text(this.game.width / 2, bounds.y + 300 * ratio, "SYMMETRY", style);
-            title.anchor.set(0.5);
-            title.setShadow(-8 * ratio, -8 * ratio, "#ffffff", 5 * ratio, true, true);
+            var graphics = this.game.add.graphics(200, 200);
+            graphics.beginFill(0xFF0000);
+            graphics.drawPolygon(this._octagon(0, 0, 200));
+            graphics.endFill();
+
+            graphics.beginFill(0x00FF00);
+            graphics.drawPolygon(this._octagon(0, 200, 200));
+            graphics.endFill();
+
+            graphics.beginFill(0x0000FF);
+            graphics.drawPolygon(this._octagon(200, 0, 200));
+            graphics.endFill();
+
+            graphics.beginFill(0xFF00FF);
+            graphics.drawPolygon(this._octagon(200, 200, 200));
+            graphics.endFill();
+
+            graphics.beginFill(0x654987);
+            let s2 = 200 / (1 + Math.sqrt(2));
+            graphics.drawPolygon(this._square(100, 100, s2));
+            graphics.endFill();
+
+
+
+        }
+
+        private _octagon(x, y, width) {
+            let s2 = width / (2 + 2 * Math.sqrt(2));
+            let w2 = width / 2;
+
+            let pt = [];
+            pt[0] = new Phaser.Point(x - s2, y - w2);
+            pt[1] = new Phaser.Point(x + s2, y - w2)
+            pt[2] = new Phaser.Point(x + w2, y - s2)
+            pt[3] = new Phaser.Point(x + w2, y + s2)
+            pt[4] = new Phaser.Point(x + s2, y + w2)
+            pt[5] = new Phaser.Point(x - s2, y + w2);
+            pt[6] = new Phaser.Point(x - w2, y + s2)
+            pt[7] = new Phaser.Point(x - w2, y - s2)
+
+            return pt;
+        }
+
+        private _square(x, y, width) {
+
+            let d2 = width * Math.sqrt(2) / 2;
+
+
+            let pt = [];
+            pt[0] = new Phaser.Point(x, y - d2);
+            pt[1] = new Phaser.Point(x + d2, y)
+            pt[2] = new Phaser.Point(x, y + d2)
+            pt[3] = new Phaser.Point(x - d2, y)
+
+            return pt;
 
         }
 
