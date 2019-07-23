@@ -1,4 +1,4 @@
-module SYM {
+module OCT {
 
     // The game screen ratio - All sprites will be scaled by this ratio
     export var ratio: number;

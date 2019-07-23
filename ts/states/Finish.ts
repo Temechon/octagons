@@ -1,4 +1,4 @@
-module SYM {
+module OCT {
 
     export class Finish extends Phaser.State {
 

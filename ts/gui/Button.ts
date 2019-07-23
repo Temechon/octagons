@@ -1,4 +1,4 @@
-module SYM {
+module OCT {
     export class Button extends Phaser.Graphics {
 
         private _text: Phaser.Text;

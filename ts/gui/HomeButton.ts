@@ -1,4 +1,4 @@
-module SYM {
+module OCT {
     export class HomeButton extends Phaser.Graphics {
 
         private _text: Phaser.Text;

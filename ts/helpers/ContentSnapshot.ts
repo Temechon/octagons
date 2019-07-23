@@ -1,4 +1,4 @@
-module SYM {
+module OCT {
     const PHASER_LEGACY = 248;
 
     const shouldRenderBasedOnCameraPosition = () => {

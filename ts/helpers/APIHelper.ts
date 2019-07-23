@@ -1,4 +1,4 @@
-module SYM {
+module OCT {
 
     // ChooseAsync - Select a player in the friend list
     // SwitchAsync - Switch the current context - Useful to retrieve a previous duel

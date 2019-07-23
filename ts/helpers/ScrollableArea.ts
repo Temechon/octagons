@@ -1,4 +1,4 @@
-module SYM {
+module OCT {
 
     export class ScrollableArea extends Phaser.Group {
         _x: any;

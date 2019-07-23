@@ -82,7 +82,7 @@ console.log(`- Coying files to dest folder...[OK]`.green);
 //--------------
 console.log(`- Zipping...`.yellow);
 
-var zipName = `symmetry_${moment().format('DD-MM-YYYY')}.zip`;
+var zipName = `octagons_${moment().format('DD-MM-YYYY')}.zip`;
 zipFolder('dist/', zipName);
 
 console.log(`- Zipping...[OK]`.green);

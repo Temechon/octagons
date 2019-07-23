@@ -19,10 +19,10 @@ var app = {
 
     initialize: function () {
         let game = new Phaser.Game(window.innerWidth * devicePixelRatio, window.innerHeight * devicePixelRatio, Phaser.CANVAS);
-        game.state.add('boot', SYM.Boot);
-        game.state.add('home', SYM.Home);
-        game.state.add('game', SYM.Game);
-        game.state.add('finish', SYM.Finish);
+        game.state.add('boot', OCT.Boot);
+        game.state.add('home', OCT.Home);
+        game.state.add('game', OCT.Game);
+        game.state.add('finish', OCT.Finish);
 
         game.state.start('boot');
     }

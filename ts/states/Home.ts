@@ -1,4 +1,4 @@
-module SYM {
+module OCT {
 
     export class Home extends Phaser.State {
 
@@ -13,29 +13,34 @@ module SYM {
             // graphics.fillAlpha = 0.25;
             // graphics.drawRect(bounds.x, bounds.y, bounds.width, bounds.height);
             // graphics.endFill();
+            let g = new Grid(this.game, 5, 5, 100);
+            g.x = this.game.world.centerX;
+            g.y = this.game.world.centerY;
+
+            // g.destroy();
 
 
-            var graphics = this.game.add.graphics(200, 200);
-            graphics.beginFill(0xFF0000);
-            graphics.drawPolygon(this._octagon(0, 0, 200));
-            graphics.endFill();
+            // var graphics = this.game.add.graphics(200, 200);
+            // graphics.beginFill(0xFF0000);
+            // graphics.drawPolygon(this._octagon(0, 0, 200));
+            // graphics.endFill();
 
-            graphics.beginFill(0x00FF00);
-            graphics.drawPolygon(this._octagon(0, 200, 200));
-            graphics.endFill();
+            // graphics.beginFill(0x00FF00);
+            // graphics.drawPolygon(this._octagon(0, 200, 200));
+            // graphics.endFill();
 
-            graphics.beginFill(0x0000FF);
-            graphics.drawPolygon(this._octagon(200, 0, 200));
-            graphics.endFill();
+            // graphics.beginFill(0x0000FF);
+            // graphics.drawPolygon(this._octagon(200, 0, 200));
+            // graphics.endFill();
 
-            graphics.beginFill(0xFF00FF);
-            graphics.drawPolygon(this._octagon(200, 200, 200));
-            graphics.endFill();
+            // graphics.beginFill(0xFF00FF);
+            // graphics.drawPolygon(this._octagon(200, 200, 200));
+            // graphics.endFill();
 
-            graphics.beginFill(0x654987);
-            let s2 = 200 / (1 + Math.sqrt(2));
-            graphics.drawPolygon(this._square(100, 100, s2));
-            graphics.endFill();
+            // graphics.beginFill(0x654987);
+            // let s2 = 200 / (1 + Math.sqrt(2));
+            // graphics.drawPolygon(this._square(100, 100, s2));
+            // graphics.endFill();
 
 
 

@@ -1,4 +1,4 @@
-module SYM {
+module OCT {
 
     export var chance;
     declare var Chance;
