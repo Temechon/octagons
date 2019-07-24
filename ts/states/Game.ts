@@ -10,7 +10,7 @@ module OCT {
 
         constructor() {
             super();
-            chance = new Chance(123456);
+            chance = new Chance(123456789);
             Game.INSTANCE = this;
         }
 
@@ -28,6 +28,10 @@ module OCT {
         }
 
         create() {
+
+            let g = new Grid(this.game, 5, 5, 100);
+            g.x = this.game.world.centerX;
+            g.y = this.game.world.centerY;
 
 
             // * Debug text

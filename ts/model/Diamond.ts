@@ -1,26 +1,21 @@
 module OCT {
 
-    export class Diamond extends Phaser.Sprite {
+    export class Diamond extends Geometry {
 
         constructor(
             game: Phaser.Game,
             x: number,
             y: number,
-            public size: number,
-            public color: number) {
-            super(game, x, y);
-
-            this._build();
-            this.anchor.set(0.5);
-
-            this.game.add.existing(this);
+            size: number,
+            color: number) {
+            super(game, x, y, size, color);
         }
 
         /**
          * Returns an array of point to draw a diamond
          */
 
-        private _diamond(x, y, width) {
+        protected _shape(x, y, width) {
 
             let d2 = width * Math.sqrt(2) / 2;
 
@@ -33,22 +28,6 @@ module OCT {
 
             return pt;
 
-        }
-
-        public updateColor(color: number) {
-            this.color = color;
-            this._build();
-        }
-
-        private _build() {
-            let graphics = this.game.add.graphics(0, 0);
-            graphics.beginFill(this.color);
-            graphics.drawPolygon(this._diamond(0, 0, this.size));
-            graphics.endFill();
-
-            let text = graphics.generateTexture();
-            this.loadTexture(text);
-            graphics.destroy();
         }
     }
 }

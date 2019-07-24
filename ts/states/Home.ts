@@ -13,10 +13,6 @@ module OCT {
             // graphics.fillAlpha = 0.25;
             // graphics.drawRect(bounds.x, bounds.y, bounds.width, bounds.height);
             // graphics.endFill();
-            let g = new Grid(this.game, 5, 5, 100);
-            g.x = this.game.world.centerX;
-            g.y = this.game.world.centerY;
-
             // g.destroy();
 
 
@@ -42,7 +38,7 @@ module OCT {
             // graphics.drawPolygon(this._square(100, 100, s2));
             // graphics.endFill();
 
-
+            this.game.state.start('game');
 
         }
 

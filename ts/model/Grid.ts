@@ -40,6 +40,8 @@ module OCT {
                 this.diamonds[i] = [];
             }
 
+
+            let toShape = [];
             for (let i = 0; i < this.row; i++) {
                 for (let j = 0; j < this.col; j++) {
 
@@ -48,9 +50,10 @@ module OCT {
                         i * this.size,
                         j * this.size,
                         this.size,
-                        Phaser.Color.getRandomColor());
+                        0xff0000);
                     this.octagons[i][j] = oct;
                     this.add(oct);
+                    toShape.push(oct);
                 }
             }
             for (let i = 0; i < this.row - 1; i++) {
@@ -68,11 +71,33 @@ module OCT {
             }
 
             console.log(this.widthPx, this.scale)
-            // Center all cell in the center od the group
+            // Center all cell in the center of the group
             this.forEach((c: Phaser.Sprite) => {
                 c.x -= this.widthPx / 2;
                 c.y -= this.heightPx / 2;
             });
+
+            // create shapes
+            let nbShape = 5;
+
+            let shapes: Array<Array<Octagon>> = [];
+            toShape = chance.shuffle(toShape);
+            // To create shapes, get random octagon and expand it until there is no octagon left
+            for (let i = 0; i < nbShape; i++) {
+                if (!shapes[i]) {
+                    shapes[i] = [];
+                    let base = toShape.pop();
+                    shapes[i].push(base);
+                }
+            }
+
+            for (let shape of shapes) {
+                let color = Phaser.Color.getRandomColor();
+                for (let oct of shape) {
+                    oct.updateColor(color);
+                }
+            }
+
 
         }
 
