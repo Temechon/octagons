@@ -10,7 +10,7 @@ module OCT {
 
         constructor() {
             super();
-            chance = new Chance(123456789);
+            chance = new Chance(new Date().getTime());
             Game.INSTANCE = this;
         }
 
@@ -29,9 +29,38 @@ module OCT {
 
         create() {
 
-            let g = new Grid(this.game, 5, 5, 100);
+
+            // * Debug Bounds
+            var graphics = this.game.add.graphics(0, 0);
+            graphics.beginFill(0xFFFF0B);
+            graphics.fillAlpha = 0.25;
+            graphics.drawRect(bounds.x, bounds.y, bounds.width, bounds.height);
+            graphics.endFill();
+
+            let g = new Grid(this.game, 10, 10, 12);
             g.x = this.game.world.centerX;
             g.y = this.game.world.centerY;
+
+            for (let shape of g.shapes) {
+                shape.x = g.x;
+                shape.y = g.y;
+            }
+
+            this.game.input.addMoveCallback((pi) => {
+                for (let shape of g.shapes) {
+                    shape.move(pi);
+                }
+            }, this);
+
+
+
+
+
+            // this.game.add.tween(g).to({ angle: 360 }, 5000, null, true, 0, -1);
+
+            console.log('width', g.widthPx, 'size', g.size)
+            console.log('total', bounds.width);
+
 
 
             // * Debug text

@@ -6,6 +6,8 @@ module OCT {
             game: Phaser.Game,
             x: number,
             y: number,
+            public row: number,
+            public col: number,
             public size: number,
             public color: number) {
             super(game, x, y);
@@ -15,6 +17,18 @@ module OCT {
 
             this.game.add.existing(this);
 
+            this.name = chance.guid();
+
+        }
+
+        public abstract clone(): Geometry;
+
+        /** The shape this geometry belongs to */
+        public shape: Shape = null;
+        public name: string;
+
+        public get hasShape(): boolean {
+            return this.shape !== null;
         }
 
         protected abstract _shape(x, y, width);
@@ -35,6 +49,10 @@ module OCT {
         public updateColor(color: number) {
             this.color = color;
             this._build();
+        }
+
+        public equals(other: Geometry): boolean {
+            return this.name === other.name;
         }
     }
 }

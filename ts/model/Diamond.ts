@@ -6,9 +6,11 @@ module OCT {
             game: Phaser.Game,
             x: number,
             y: number,
+            row: number,
+            col: number,
             size: number,
             color: number) {
-            super(game, x, y, size, color);
+            super(game, x, y, row, col, size, color);
         }
 
         /**
@@ -21,13 +23,21 @@ module OCT {
 
 
             let pt = [];
-            pt[0] = new Phaser.Point(x, y - d2);
-            pt[1] = new Phaser.Point(x + d2, y)
-            pt[2] = new Phaser.Point(x, y + d2)
-            pt[3] = new Phaser.Point(x - d2, y)
+            let d = 0.7;
+            pt[0] = new Phaser.Point(x, y - d2 - d);
+            pt[1] = new Phaser.Point(x + d2 + d, y)
+            pt[2] = new Phaser.Point(x, y + d2 + d)
+            pt[3] = new Phaser.Point(x - d2 - d, y)
 
             return pt;
 
+        }
+
+        public clone(): Diamond {
+
+            let diams = new Diamond(this.game, this.x, this.y, this.row, this.col, this.size, this.color);
+            diams.name = this.name;
+            return diams;
         }
     }
 }
