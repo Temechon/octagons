@@ -61,6 +61,12 @@ module OCT {
                         0x333333);
                     this.octagons[i][j] = oct;
                     this.add(oct);
+
+                    oct.inputEnabled = true;
+                    oct.events.onInputDown.add(() => {
+                        console.log('Position', oct.position)
+                        console.log('World Position', oct.worldPosition)
+                    })
                 }
             }
 
@@ -81,7 +87,7 @@ module OCT {
                 }
             }
 
-            // Center all cell in the center of the group
+            // Center all octagons and diamonds in the center of the group
             this.forEach((c: Phaser.Sprite) => {
                 c.x -= this.widthPx / 2 - this.size / 2;
                 c.y -= this.heightPx / 2 - this.size / 2;
@@ -112,6 +118,13 @@ module OCT {
                         nn.shape = shape;
                         let clone = nn.clone() as Octagon;
                         shape.addGeometry(clone);
+
+                        // clone.events.onInputOver.add(() => {
+                        //     console.log('Position', clone.position)
+                        //     console.log('World Position', clone.worldPosition)
+                        //     console.log('Shape position', shape.position)
+                        //     console.log('Shape World position', shape.worldPosition)
+                        // })
                     }
                 }
                 singles = this.getOctagons((oct: Octagon) => !oct.hasShape);
@@ -138,7 +151,7 @@ module OCT {
             }
 
             for (let shape of this.shapes) {
-                shape.scale.multiply(1.01, 1.01);
+                // console.log("position", shape.pos)
             }
         }
 

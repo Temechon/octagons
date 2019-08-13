@@ -12,6 +12,13 @@ module OCT {
         constructor(game: Phaser.Game, public grid: Grid) {
             super(game);
 
+
+            var graphics = this.game.add.graphics(0, 0);
+            graphics.beginFill(0xFF0000);
+            graphics.drawCircle(0, 0, 50);
+            graphics.endFill();
+            this.addChild(graphics);
+
             // Activate drag n drop
             this.inputEnableChildren = true;
 
@@ -23,7 +30,10 @@ module OCT {
                 this.game.world.bringToTop(this);
             });
             this.onChildInputUp.add((sprite, pi: Phaser.Pointer) => {
+                console.log("up");
                 this._picked = false;
+
+                this.updateTransform();
 
                 // Dont auto-align if the pointer is not on the grid
                 if (this.grid.hasPointer(pi)) {
@@ -31,15 +41,18 @@ module OCT {
                     // Try to set up its position on the grid
                     // get octagon in the grid that 
                     let octa = this.grid.getNearestOctagon({ x: pi.x, y: pi.y });
+                    octa.updateTransform();
 
                     // selected octagon in the shape
                     let shapeOcta = this.getNearestOctagon({ x: pi.x, y: pi.y });
+                    shapeOcta.updateTransform();
 
-                    this.x += (octa.worldPosition.x - shapeOcta.worldPosition.x);
-                    this.y += (octa.worldPosition.y - shapeOcta.worldPosition.y);
+                    console.log(octa.worldPosition.x - shapeOcta.worldPosition.x)
+                    console.log(octa.worldPosition.y - shapeOcta.worldPosition.y)
 
-                    this.x = Math.floor(this.x);
-                    this.y = Math.floor(this.y);
+                    this.x += octa.worldPosition.x - shapeOcta.worldPosition.x;
+                    this.y += octa.worldPosition.y - shapeOcta.worldPosition.y;
+
 
                 }
 
@@ -48,6 +61,8 @@ module OCT {
 
         public move(pi: Phaser.Pointer) {
             if (this._picked) {
+                console.log("move");
+
                 this.x = pi.clientX - this.dragStartCoords.x;
                 this.y = pi.clientY - this.dragStartCoords.y;
             }
