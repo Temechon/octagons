@@ -136,6 +136,10 @@ module OCT {
                     }
                 }
             }
+
+            for (let shape of this.shapes) {
+                shape.scale.multiply(1.01, 1.01);
+            }
         }
 
         // Cmpute the best size for hexagons to fill the whole space
@@ -154,8 +158,11 @@ module OCT {
             return null;
         }
 
+        /**
+         * Returns the octagon the nearest of the screen position given in parameter
+         */
         public getNearestOctagon(pointer: { x: number, y: number }): Octagon {
-            let minDist = 9999999999999;
+            let minDist = Number.MAX_VALUE;
             let nearest = null;
             for (let i = 0; i < this.row; i++) {
                 for (let j = 0; j < this.col; j++) {
@@ -168,6 +175,19 @@ module OCT {
                 }
             }
             return nearest;
+        }
+
+        /**
+         * Returns false if the pointer is not on the grid, false otherwise
+         */
+        public hasPointer(pi: Phaser.Pointer): boolean {
+            let minx = this.x - this.widthPx / 2;
+            let maxx = this.x + this.widthPx / 2;
+
+            let miny = this.y - this.heightPx / 2;
+            let maxy = this.y + this.heightPx / 2;
+
+            return pi.x > minx && pi.x < maxx && pi.y > miny && pi.y < maxy;
         }
 
         public getOctagons(predicate: (oct: Octagon) => boolean): Array<Octagon> {

@@ -18,20 +18,31 @@ module OCT {
             let startx, starty;
             this.onChildInputDown.add((children: Phaser.Sprite, pi: Phaser.Pointer) => {
                 this._picked = true;
-                this.dragStartCoords.x = pi.clientX - this.x;
-                this.dragStartCoords.y = pi.clientY - this.y;
+                this.dragStartCoords.x = pi.x - this.x;
+                this.dragStartCoords.y = pi.y - this.y;
                 this.game.world.bringToTop(this);
             });
             this.onChildInputUp.add((sprite, pi: Phaser.Pointer) => {
                 this._picked = false;
-                console.log(pi);
 
-                // Try to set up its position on the grid
-                let octa = this.grid.getNearestOctagon({ x: pi.clientX, y: pi.clientY });
-                // this.x = this.grid.x;
-                // this.y = this.grid.y;
+                // Dont auto-align if the pointer is not on the grid
+                if (this.grid.hasPointer(pi)) {
 
-                // this.y = octa.worldPosition.y - this.grid.y
+                    // Try to set up its position on the grid
+                    // get octagon in the grid that 
+                    let octa = this.grid.getNearestOctagon({ x: pi.x, y: pi.y });
+
+                    // selected octagon in the shape
+                    let shapeOcta = this.getNearestOctagon({ x: pi.x, y: pi.y });
+
+                    this.x += (octa.worldPosition.x - shapeOcta.worldPosition.x);
+                    this.y += (octa.worldPosition.y - shapeOcta.worldPosition.y);
+
+                    this.x = Math.floor(this.x);
+                    this.y = Math.floor(this.y);
+
+                }
+
             });
         }
 
@@ -40,6 +51,22 @@ module OCT {
                 this.x = pi.clientX - this.dragStartCoords.x;
                 this.y = pi.clientY - this.dragStartCoords.y;
             }
+        }
+
+        /**
+         * Returns the octagon the nearest of the screen position given in parameter
+         */
+        public getNearestOctagon(pointer: { x: number, y: number }): Octagon {
+            let minDist = Number.MAX_VALUE;
+            let nearest = null;
+            for (let oct of this.octagons) {
+                let dist = Phaser.Math.distanceSq(oct.worldPosition.x, oct.worldPosition.y, pointer.x, pointer.y);
+                if (dist < minDist) {
+                    minDist = dist;
+                    nearest = oct
+                }
+            }
+            return nearest;
         }
 
         public addGeometry(geo: Geometry) {

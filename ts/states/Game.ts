@@ -31,11 +31,11 @@ module OCT {
 
 
             // * Debug Bounds
-            var graphics = this.game.add.graphics(0, 0);
-            graphics.beginFill(0xFFFF0B);
-            graphics.fillAlpha = 0.25;
-            graphics.drawRect(bounds.x, bounds.y, bounds.width, bounds.height);
-            graphics.endFill();
+            // var graphics = this.game.add.graphics(0, 0);
+            // graphics.beginFill(0xFFFF0B);
+            // graphics.fillAlpha = 0.25;
+            // graphics.drawRect(bounds.x, bounds.y, bounds.width, bounds.height);
+            // graphics.endFill();
 
             let g = new Grid(this.game, 10, 10, 12);
             g.x = this.game.world.centerX;
