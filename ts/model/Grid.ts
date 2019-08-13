@@ -61,12 +61,6 @@ module OCT {
                         0x333333);
                     this.octagons[i][j] = oct;
                     this.add(oct);
-
-                    oct.inputEnabled = true;
-                    oct.events.onInputDown.add(() => {
-                        console.log('Position', oct.position)
-                        console.log('World Position', oct.worldPosition)
-                    })
                 }
             }
 
@@ -118,13 +112,6 @@ module OCT {
                         nn.shape = shape;
                         let clone = nn.clone() as Octagon;
                         shape.addGeometry(clone);
-
-                        // clone.events.onInputOver.add(() => {
-                        //     console.log('Position', clone.position)
-                        //     console.log('World Position', clone.worldPosition)
-                        //     console.log('Shape position', shape.position)
-                        //     console.log('Shape World position', shape.worldPosition)
-                        // })
                     }
                 }
                 singles = this.getOctagons((oct: Octagon) => !oct.hasShape);

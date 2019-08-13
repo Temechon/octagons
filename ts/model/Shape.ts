@@ -30,7 +30,6 @@ module OCT {
                 this.game.world.bringToTop(this);
             });
             this.onChildInputUp.add((sprite, pi: Phaser.Pointer) => {
-                console.log("up");
                 this._picked = false;
 
                 this.updateTransform();
@@ -47,9 +46,6 @@ module OCT {
                     let shapeOcta = this.getNearestOctagon({ x: pi.x, y: pi.y });
                     shapeOcta.updateTransform();
 
-                    console.log(octa.worldPosition.x - shapeOcta.worldPosition.x)
-                    console.log(octa.worldPosition.y - shapeOcta.worldPosition.y)
-
                     this.x += octa.worldPosition.x - shapeOcta.worldPosition.x;
                     this.y += octa.worldPosition.y - shapeOcta.worldPosition.y;
 
@@ -61,8 +57,6 @@ module OCT {
 
         public move(pi: Phaser.Pointer) {
             if (this._picked) {
-                console.log("move");
-
                 this.x = pi.clientX - this.dragStartCoords.x;
                 this.y = pi.clientY - this.dragStartCoords.y;
             }
