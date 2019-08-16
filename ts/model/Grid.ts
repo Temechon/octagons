@@ -25,12 +25,14 @@ module OCT {
          * height
          * 
          * _cells[row][col]
+         * Cells can be nulls
          */
         private octagons: Array<Array<Octagon>> = [];
         private diamonds: Array<Array<Diamond>> = [];
 
         /** The list of random shapes to be placed on this grid */
         public shapes: Array<Shape> = [];
+        public nbShapes: number = 0;
 
         private _diamSize: number = 0;
 
@@ -39,8 +41,7 @@ module OCT {
         constructor(
             game: Phaser.Game,
             public row: number,
-            public col: number,
-            public nbShapes: number) {
+            public col: number) {
             super(game);
 
             this._computeBestSize();
@@ -87,14 +88,36 @@ module OCT {
                 c.y -= this.heightPx / 2 - this.size / 2;
             });
 
-            // create shapes
+            // //* DEBUG
+            // for (let i = 0; i < 5; i++) {
+            //     let oct: Octagon = chance.pickone(chance.pickone(this.nonNullOctagons))
+            //     if (oct) {
+            //         oct.kill();
+            //         this.octagons[oct.row][oct.col] = null;
+            //     }
+            // }
+
+        }
+
+        public get nonNullOctagons(): Array<Array<Octagon>> {
+            return this.octagons.map(array => array.filter(o => o !== null))
+        }
+
+        /**
+         * Builds shapes according to this grid
+         * @param nbShapes 
+         */
+        public buildShapes(nbShapes: number) {
+
+            this.nbShapes = nbShapes;
+
             // To create shapes, get random octagon and expand it until there is no octagon left
             // First, create starting point of all shapes
             for (let i = 0; i < this.nbShapes; i++) {
                 this.shapes[i] = new Shape(this.game, this);
-                let n: Octagon = chance.pickone(chance.pickone(this.octagons));
+                let n: Octagon = chance.pickone(chance.pickone(this.nonNullOctagons));
                 while (n.hasShape) {
-                    n = chance.pickone(chance.pickone(this.octagons));
+                    n = chance.pickone(chance.pickone(this.nonNullOctagons));
                 }
                 n.shape = this.shapes[i];
                 let clone = n.clone() as Octagon;
@@ -102,9 +125,11 @@ module OCT {
                 this.shapes[i].updateColor(Phaser.Color.getRandomColor());
             }
 
-            // Get all octgons without shapes
+            // Get all non null octgons without shapes
             let singles = this.getOctagons((oct: Octagon) => !oct.hasShape);
+            let didSomething = false;
             while (singles.length !== 0) {
+                didSomething = false;
                 for (let shape of this.shapes) {
                     let neighbours = shape.getAllNeighbours((n: Octagon) => !n.hasShape);
                     if (neighbours.length > 0) {
@@ -112,7 +137,17 @@ module OCT {
                         nn.shape = shape;
                         let clone = nn.clone() as Octagon;
                         shape.addGeometry(clone);
+                        didSomething = true;
                     }
+                }
+                if (!didSomething) {
+                    // Add this single octagon to a new shape
+                    let oct = singles[0];
+                    let clone = oct.clone() as Octagon;
+                    let s = new Shape(this.game, this);
+                    this.shapes.push(s);
+                    oct.shape = s;
+                    s.addGeometry(clone);
                 }
                 singles = this.getOctagons((oct: Octagon) => !oct.hasShape);
             }
@@ -120,25 +155,33 @@ module OCT {
             for (let i = 0; i < this.row - 1; i++) {
                 for (let j = 0; j < this.col - 1; j++) {
                     let d = this.diamonds[i][j];
-                    if (!d.hasShape) {
+                    if (d && !d.hasShape) {
                         let clone = d.clone() as Diamond;
                         // Count its neighbours
                         let neighbours: Array<Octagon> = this.getOctagonsNearDiamond(d);
 
                         // If all its neighbours are of the same shape, add this diamond to the shapes
                         let shapes: Array<Shape> = this.getShapesOf(neighbours);
-                        if (shapes.length === 1) {
-                            shapes[0].addGeometry(clone);
-                            return;
+
+                        // If all shapes are null, remove this diamond
+                        if (shapes.length === shapes.filter(s => s === null).length) {
+                            // No octagons near this diamond, remove it
+                            d.kill();
+                            clone.kill();
+                            this.diamonds[i][j] = null;
+                            continue;
                         }
-                        // Otherwise add it to a random shape
-                        chance.pickone(shapes).addGeometry(clone);
+                        // If there is only one shape, add this diamond to it
+                        if (shapes.length === 1 && shapes[0] !== null) {
+                            shapes[0].addGeometry(clone);
+                            continue;
+                        }
+
+                        // Otherwise, add this diamond to a random non-null shape
+                        chance.pickone(shapes.filter(s => s !== null)).addGeometry(clone);
+
                     }
                 }
-            }
-
-            for (let shape of this.shapes) {
-                // console.log("position", shape.pos)
             }
         }
 
@@ -147,8 +190,9 @@ module OCT {
             let availWidth = bounds.width;
             let theoricalWidth = availWidth / this.col;
 
-            let theoricalHeight = bounds.height / this.row;
+            let theoricalHeight = bounds.height / 2 / this.row;
             this.size = Math.min(theoricalWidth, theoricalHeight);
+            console.log(this.size);
         }
 
         public getOctagon(row: number, col: number): Octagon {
@@ -195,7 +239,7 @@ module OCT {
             for (let i = 0; i < this.row; i++) {
                 for (let j = 0; j < this.col; j++) {
                     let oct = this.getOctagon(i, j);
-                    if (predicate(oct)) {
+                    if (oct && predicate(oct)) {
                         res.push(oct);
                     }
                 }
@@ -271,6 +315,10 @@ module OCT {
          */
         public getOctagonNeighbour(tile: Octagon, dir: number): Octagon {
             let res: Octagon = null;
+
+            if (!tile) {
+                return null;
+            }
 
             switch (dir) {
                 case Grid.DIRECTIONS.TOP:

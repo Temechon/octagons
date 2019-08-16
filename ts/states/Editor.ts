@@ -10,7 +10,6 @@ module OCT {
         private _rows: number = 3;
         private _cols: number = 3;
         private _grid: Grid;
-        private _colors: Array<Grid> = [];
 
         constructor() {
             super();
@@ -88,13 +87,13 @@ module OCT {
         }
 
         private buildGrid(): Grid {
-            let grid: Grid // TODO
+            let grid: Grid = new Grid(this.game, this._rows, this._cols);
             grid.x = this.game.world.centerX;
             grid.y = this.game.world.centerY;
 
-            grid.onChildInputDown.add((oct: Octagon) => {
-                grid.getOctagon()
-            });
+            // grid.onChildInputDown.add((oct: Octagon) => {
+            //     grid.getOctagon()
+            // });
 
 
             return grid;

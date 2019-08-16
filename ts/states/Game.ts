@@ -37,9 +37,11 @@ module OCT {
             // graphics.drawRect(bounds.x, bounds.y, bounds.width, bounds.height);
             // graphics.endFill();
 
-            let g = new Grid(this.game, 5, 5, 3);
+            let g = new Grid(this.game, 5, 5);
             g.x = this.game.world.centerX;
             g.y = this.game.world.centerY;
+
+            g.buildShapes(5);
 
             for (let shape of g.shapes) {
                 shape.x = g.x;

@@ -90,11 +90,11 @@ module OCT {
             try {
                 kongregateAPI.loadAPI(() => {
                     kongregate = window['kongregate'] = kongregateAPI.getAPI();
-                    this.game.state.start('home');
+                    this.game.state.start('editor');
                 });
             } catch (e) {
                 console.error(e);
-                this.game.state.start('home');
+                this.game.state.start('editor');
             }
 
         }
