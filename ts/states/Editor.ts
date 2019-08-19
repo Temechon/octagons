@@ -91,9 +91,14 @@ module OCT {
             grid.x = this.game.world.centerX;
             grid.y = this.game.world.centerY;
 
-            // grid.onChildInputDown.add((oct: Octagon) => {
-            //     grid.getOctagon()
-            // });
+            grid.forEach((geo: Geometry) => {
+                geo.inputEnabled = true;
+            })
+
+            grid.onChildInputDown.add((oct: Geometry) => {
+                oct.kill();
+                grid.setGeometry(oct, null);
+            });
 
 
             return grid;

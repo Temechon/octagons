@@ -37,7 +37,8 @@ module OCT {
             // graphics.drawRect(bounds.x, bounds.y, bounds.width, bounds.height);
             // graphics.endFill();
 
-            let g = new Grid(this.game, 5, 5);
+            // let g = new Grid(this.game, 5, 5);
+            let g = Grid.Build(this.game, '{"row":3,"col":3,"octagons":[[1,0,0],[1,0,0],[1,1,1]],"diamonds":[[1,0,0],[1,1,0],[0,0,0]]}');
             g.x = this.game.world.centerX;
             g.y = this.game.world.centerY;
 

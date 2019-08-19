@@ -103,6 +103,58 @@ module OCT {
             return this.octagons.map(array => array.filter(o => o !== null))
         }
 
+        public setGeometry(geo: Geometry, value: Geometry) {
+            if (geo instanceof Octagon) {
+                this.setOctagon(geo.row, geo.col, value as Octagon);
+            } else {
+                this.setDiamond(geo.row, geo.col, value as Diamond);
+            }
+        }
+
+        public static Build(game: Phaser.Game, str: string): Grid {
+            let res = JSON.parse(str);
+            let grid = new Grid(game, res.row, res.col);
+
+            for (let i = 0; i < res.row; i++) {
+                for (let j = 0; j < res.col; j++) {
+                    if (res.octagons[i][j] === 0) {
+                        grid.setOctagon(i, j, null);
+                    }
+                }
+            }
+
+            for (let i = 0; i < res.row - 1; i++) {
+                for (let j = 0; j < res.col - 1; j++) {
+                    if (res.diamonds[i][j] === 0) {
+                        grid.setDiamond(i, j, null);
+                    }
+                }
+            }
+
+            return grid;
+        }
+
+        /**
+         * row/col&octs/diams
+         */
+        public toString(): string {
+            let oct = [], diams = [];
+            for (let i = 0; i < this.row; i++) {
+                let oRow = [];
+                let dRow = [];
+                for (let j = 0; j < this.col; j++) {
+                    let oct = this.getOctagon(i, j);
+                    let diams = this.getDiamond(i, j);
+                    oRow.push((oct) ? 1 : 0);
+                    dRow.push((diams) ? 1 : 0);
+                }
+                oct.push(oRow);
+                diams.push(dRow);
+            }
+            let res = { row: this.row, col: this.col, octagons: oct, diamonds: diams };
+            return JSON.stringify(res);
+        }
+
         /**
          * Builds shapes according to this grid
          * @param nbShapes 
@@ -200,6 +252,18 @@ module OCT {
                 return this.octagons[row][col];
             }
             return null;
+        }
+
+        public setOctagon(row: number, col: number, value: Octagon) {
+            if (this._isInGrid(row, col)) {
+                this.octagons[row][col] = value;
+            }
+        }
+
+        public setDiamond(row: number, col: number, value: Diamond) {
+            if (this._isDiamondInGrid(row, col)) {
+                this.diamonds[row][col] = value;
+            }
         }
 
         /**
