@@ -41,38 +41,5 @@ module OCT {
             this.game.state.start('game');
 
         }
-
-        private _octagon(x, y, width) {
-            let s2 = width / (2 + 2 * Math.sqrt(2));
-            let w2 = width / 2;
-
-            let pt = [];
-            pt[0] = new Phaser.Point(x - s2, y - w2);
-            pt[1] = new Phaser.Point(x + s2, y - w2)
-            pt[2] = new Phaser.Point(x + w2, y - s2)
-            pt[3] = new Phaser.Point(x + w2, y + s2)
-            pt[4] = new Phaser.Point(x + s2, y + w2)
-            pt[5] = new Phaser.Point(x - s2, y + w2);
-            pt[6] = new Phaser.Point(x - w2, y + s2)
-            pt[7] = new Phaser.Point(x - w2, y - s2)
-
-            return pt;
-        }
-
-        private _square(x, y, width) {
-
-            let d2 = width * Math.sqrt(2) / 2;
-
-
-            let pt = [];
-            pt[0] = new Phaser.Point(x, y - d2);
-            pt[1] = new Phaser.Point(x + d2, y)
-            pt[2] = new Phaser.Point(x, y + d2)
-            pt[3] = new Phaser.Point(x - d2, y)
-
-            return pt;
-
-        }
-
     }
 }

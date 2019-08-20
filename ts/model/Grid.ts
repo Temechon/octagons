@@ -275,10 +275,12 @@ module OCT {
             for (let i = 0; i < this.row; i++) {
                 for (let j = 0; j < this.col; j++) {
                     let oct = this.getOctagon(i, j);
-                    let dist = Phaser.Math.distanceSq(oct.worldPosition.x, oct.worldPosition.y, pointer.x, pointer.y);
-                    if (dist < minDist) {
-                        minDist = dist;
-                        nearest = oct
+                    if (oct) {
+                        let dist = Phaser.Math.distanceSq(oct.worldPosition.x, oct.worldPosition.y, pointer.x, pointer.y);
+                        if (dist < minDist) {
+                            minDist = dist;
+                            nearest = oct
+                        }
                     }
                 }
             }
@@ -401,6 +403,16 @@ module OCT {
             return res;
         }
 
+        public checkVictory(): boolean {
+            let epsilon = 0.1;
+            let res = true;
+
+            for (let s of this.shapes) {
+                s.updateTransform();
+                res = res && Phaser.Point.distance(this.worldPosition, s.worldPosition) < epsilon;
+            }
+            return res;
+        }
 
     }
 

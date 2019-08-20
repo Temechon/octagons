@@ -37,8 +37,8 @@ module OCT {
             // graphics.drawRect(bounds.x, bounds.y, bounds.width, bounds.height);
             // graphics.endFill();
 
-            // let g = new Grid(this.game, 5, 5);
-            let g = Grid.Build(this.game, '{"row":3,"col":3,"octagons":[[1,0,0],[1,0,0],[1,1,1]],"diamonds":[[1,0,0],[1,1,0],[0,0,0]]}');
+            let g = new Grid(this.game, 5, 5);
+            // let g = Grid.Build(this.game, '{"row":3,"col":3,"octagons":[[1,0,0],[1,0,0],[1,1,1]],"diamonds":[[1,0,0],[1,1,0],[0,0,0]]}');
             g.x = this.game.world.centerX;
             g.y = this.game.world.centerY;
 
@@ -55,14 +55,14 @@ module OCT {
                 }
             }, this);
 
+            this.game.input.onUp.add(() => {
+                if (g.checkVictory()) {
+                    this.game.state.start('finish', false);
+                }
+            })
 
+            // this.game.add.tween(g.scale).from({ x: 1, y: 1 }, 5000, null, true, 0, -1);
 
-
-
-            // this.game.add.tween(g).to({ angle: 360 }, 5000, null, true, 0, -1);
-
-            console.log('width', g.widthPx, 'size', g.size)
-            console.log('total', bounds.width);
 
 
 

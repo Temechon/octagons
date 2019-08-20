@@ -15,7 +15,7 @@ module OCT {
 
             var graphics = this.game.add.graphics(0, 0);
             graphics.beginFill(0xFF0000);
-            graphics.drawCircle(0, 0, 50);
+            graphics.drawCircle(0, 0, 25);
             graphics.endFill();
             this.addChild(graphics);
 
@@ -48,10 +48,7 @@ module OCT {
 
                     this.x += octa.worldPosition.x - shapeOcta.worldPosition.x;
                     this.y += octa.worldPosition.y - shapeOcta.worldPosition.y;
-
-
                 }
-
             });
         }
 

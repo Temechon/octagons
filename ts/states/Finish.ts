@@ -4,20 +4,6 @@ module OCT {
 
         private _title: string;
 
-        private _isGameOver: boolean = false;
-
-        init(params: any) {
-            if (params) {
-                if (params.message) {
-                    this._title = params.message;
-                }
-                if (params.isGameOver) {
-                    this._isGameOver = params.isGameOver;
-                }
-            }
-
-        }
-
         create() {
 
             let overlay = this.game.add.graphics(0, 0);
@@ -43,32 +29,21 @@ module OCT {
 
             // SYMMETRY
             let style = { font: Helpers.font(120, 'KeepCalm'), fill: "#E84A5F", align: "center" };
-            let title = this.game.add.text(this.game.width / 2, bounds.y + 200 * ratio, "SYMMETRY", style);
+            let title = this.game.add.text(this.game.width / 2, bounds.y + 200 * ratio, "OCTAGONS", style);
             title.anchor.set(0.5);
             title.setShadow(-4 * ratio, -4 * ratio, "#ffffff", 3 * ratio, true, true);
 
             // Game over 
             style = { font: Helpers.font(80, 'KeepCalm'), fill: "#ffffff", align: "center" };
-            let gameover = this.game.add.text(this.game.width / 2, background.y + 1.5 * margin, this._title.toUpperCase(), style);
+            let gameover = this.game.add.text(this.game.width / 2, background.y + 1.5 * margin, "Awesome !", style);
             gameover.anchor.set(0.5, 0);
 
-            // Retry button
-            if (this._isGameOver) {
-                let retryButton = new Button(this.game, { w: 550 * ratio, h: 120 * ratio }, 0xFF8984, "Replay", 60)
-                retryButton.onInputDown = () => {
-                    this.game.state.start('game', true, false);
-                };
-                retryButton.setAt(this.game.width / 2, background.y + background.height - 75 * ratio);
-
-            } else {
-                // Home button
-                let homebutton = new Button(this.game, { w: 400 * ratio, h: 100 * ratio }, 0xFF8984, "Home", 60)
-                homebutton.onInputDown = () => {
-                    this.game.state.start('levellist');
-                };
-                homebutton.setAt(this.game.width / 2, background.y + background.height - 50 * ratio);
-
-            }
+            // Home button
+            let homebutton = new Button(this.game, { w: 400 * ratio, h: 100 * ratio }, 0xFF8984, "Next", 60)
+            homebutton.onInputDown = () => {
+                this.game.state.start('levellist');
+            };
+            homebutton.setAt(this.game.width / 2, background.y + background.height - 50 * ratio);
         }
     }
 }
