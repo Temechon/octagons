@@ -244,7 +244,6 @@ module OCT {
 
             let theoricalHeight = bounds.height / 2 / this.row;
             this.size = Math.min(theoricalWidth, theoricalHeight);
-            console.log(this.size);
         }
 
         public getOctagon(row: number, col: number): Octagon {

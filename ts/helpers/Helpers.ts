@@ -13,6 +13,13 @@ module OCT {
         }
 
         /**
+         * array.filter(distinct) return an array with distinct values
+         */
+        public static distinct(value, index, self) {
+            return self.indexOf(value) === index;
+        }
+
+        /**
          * Randomize array element order in-place.
          * Using Durstenfeld shuffle algorithm.
          */

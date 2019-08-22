@@ -9,15 +9,23 @@ module OCT {
 
         public color: number;
 
+        private _nbRows = 0;
+        private _nbCols = 0;
+
+        public center: Phaser.Point;
+
+        private _center: Phaser.Graphics;
+
         constructor(game: Phaser.Game, public grid: Grid) {
             super(game);
 
+            this.center = new Phaser.Point(0, 0);
 
-            var graphics = this.game.add.graphics(0, 0);
-            graphics.beginFill(0xFF0000);
-            graphics.drawCircle(0, 0, 25);
-            graphics.endFill();
-            this.addChild(graphics);
+            this._center = this.game.add.graphics(0, 0);
+            this._center.beginFill(0xFF0000);
+            this._center.drawCircle(0, 0, 25);
+            this._center.endFill();
+            this.addChild(this._center);
 
             // Activate drag n drop
             this.inputEnableChildren = true;
@@ -52,6 +60,55 @@ module OCT {
             });
         }
 
+        private _countRowsCols() {
+            this._nbRows = this.octagons.map(oct => oct.row).filter(Helpers.distinct).length;
+            this._nbCols = this.octagons.map(oct => oct.col).filter(Helpers.distinct).length;
+        }
+
+        private _updateCenter() {
+            this.center.x = this.center.y = 0;
+            for (let oct of this.octagons) {
+                oct.updateTransform();
+                this.center.x += oct.worldPosition.x;
+                this.center.y += oct.worldPosition.y;
+            }
+
+            this.center.x /= this.octagons.length;
+            this.center.y /= this.octagons.length;
+
+            this._center.kill();
+            this.removeChild(this._center);
+            this._center = this.game.add.graphics(0, 0);
+            this._center.beginFill(0xFF0000);
+            this._center.drawCircle(this.center.x, this.center.y, 25);
+            this._center.endFill();
+            this.addChild(this._center);
+            this.bringToTop(this._center);
+        }
+
+        public debug() {
+            let rect = this.game.add.graphics(-this.widthPx / 2, -this.heightPx / 2);
+            rect.lineStyle(5, 0x00ff00);
+            rect.drawRect(0, 0, this.widthPx, this.heightPx);
+            rect.endFill();
+            this.addChild(rect)
+            console.log(this.widthPx, this.heightPx)
+        }
+
+        public setAt(x: number, y: number) {
+            let diff = Phaser.Point.subtract(this.worldPosition as Phaser.Point, this.center);
+            this.x = x + diff.x;
+            this.y = y + diff.y;
+        }
+
+        public get widthPx(): number {
+            return this._nbCols * this.grid.size;
+        }
+
+        public get heightPx(): number {
+            return this._nbRows * this.grid.size;
+        }
+
         public move(pi: Phaser.Pointer) {
             if (this._picked) {
                 this.x = pi.clientX - this.dragStartCoords.x;
@@ -78,6 +135,7 @@ module OCT {
         public addGeometry(geo: Geometry) {
             if (geo instanceof Octagon) {
                 this.octagons.push(geo as Octagon);
+                this._updateCenter();
             }
             if (geo instanceof Diamond) {
                 this.diamonds.push(geo as Diamond);
@@ -86,6 +144,8 @@ module OCT {
             geo.shape = this;
             geo.updateColor(this.color);
             this.add(geo);
+
+            this._countRowsCols();
         }
 
         public updateColor(color: number) {

@@ -3,6 +3,8 @@ module OCT {
     export var chance;
     declare var Chance;
 
+    declare var MaxRectsBinPack;
+
 
     export class Game extends Phaser.State {
 
@@ -37,17 +39,41 @@ module OCT {
             // graphics.drawRect(bounds.x, bounds.y, bounds.width, bounds.height);
             // graphics.endFill();
 
-            let g = new Grid(this.game, 5, 5);
+            let g = new Grid(this.game, 10, 5);
             // let g = Grid.Build(this.game, '{"row":3,"col":3,"octagons":[[1,0,0],[1,0,0],[1,1,1]],"diamonds":[[1,0,0],[1,1,0],[0,0,0]]}');
             g.x = this.game.world.centerX;
-            g.y = this.game.world.centerY;
+            g.y = g.heightPx / 2 + 150 * ratio;
 
             g.buildShapes(5);
 
-            for (let shape of g.shapes) {
-                shape.x = g.x;
-                shape.y = g.y;
+            for (let s of g.shapes) {
+                s.x = g.x;
+                s.y = g.y;
+                s.debug();
             }
+
+
+
+
+            // const pack = new MaxRectsBinPack.MaxRectsBinPack(this.game.width, this.game.height / 2, false);
+            // let rects = [];
+            // let tmp = 0;
+            // for (let s = 0; s < g.shapes.length; s++) {
+            //     let shape = g.shapes[s];
+            //     rects.push({
+            //         width: shape.widthPx,
+            //         height: shape.heightPx,
+            //         id: (s).toString()
+            //     });
+            // }
+
+            // const result = pack.insert2(rects, MaxRectsBinPack.BestShortSideFit)
+            // console.log(result);
+
+            // for (let obj of result) {
+            //     let index = parseInt(obj.id);
+            //     g.shapes[index].setAt(obj.x + this.game.width / 2, obj.y + this.game.height / 2);
+            // }
 
             this.game.input.addMoveCallback((pi) => {
                 for (let shape of g.shapes) {
@@ -55,11 +81,11 @@ module OCT {
                 }
             }, this);
 
-            this.game.input.onUp.add(() => {
-                if (g.checkVictory()) {
-                    this.game.state.start('finish', false);
-                }
-            })
+            // this.game.input.onUp.add(() => {
+            //     if (g.checkVictory()) {
+            //         this.game.state.start('finish', false);
+            //     }
+            // })
 
             // this.game.add.tween(g.scale).from({ x: 1, y: 1 }, 5000, null, true, 0, -1);
 
