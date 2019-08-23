@@ -52,6 +52,11 @@ module OCT {
                     this.x += octa.worldPosition.x - shapeOcta.worldPosition.x;
                     this.y += octa.worldPosition.y - shapeOcta.worldPosition.y;
                 }
+
+                // Check if the game is won
+                if (this.grid.checkVictory()) {
+                    this.grid.onVictory();
+                }
             });
         }
 
@@ -83,12 +88,12 @@ module OCT {
             let width = (xmax - xmin);
             let height = (ymax - ymin);
 
-            let bbox = this.game.add.graphics(0, 0);
-            bbox.lineStyle(3, 0x00ff00);
-            bbox.drawRect(xmin - this.x, ymin - this.y, width, height);
-            bbox.endFill();
-            this.addChild(bbox);
-            this.bringToTop(bbox);
+            // let bbox = this.game.add.graphics(0, 0);
+            // bbox.lineStyle(3, 0x00ff00);
+            // bbox.drawRect(xmin - this.x, ymin - this.y, width, height);
+            // bbox.endFill();
+            // this.addChild(bbox);
+            // this.bringToTop(bbox);
 
             this._center.x = (xmin - this.x) + width / 2;
             this._center.y = (ymin - this.y) + height / 2;

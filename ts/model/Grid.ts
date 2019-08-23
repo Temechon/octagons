@@ -33,6 +33,11 @@ module OCT {
         /** The list of random shapes to be placed on this grid */
         public shapes: Array<Shape> = [];
 
+        /**
+         * Method called when all shapes are correctly displayed
+         */
+        public onVictory: () => void;
+
         private _diamSize: number = 0;
 
         public size: number;
@@ -409,7 +414,6 @@ module OCT {
             }
             return res;
         }
-
     }
 
 }
