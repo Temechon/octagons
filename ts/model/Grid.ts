@@ -32,7 +32,6 @@ module OCT {
 
         /** The list of random shapes to be placed on this grid */
         public shapes: Array<Shape> = [];
-        public nbShapes: number = 0;
 
         private _diamSize: number = 0;
 
@@ -161,11 +160,9 @@ module OCT {
          */
         public buildShapes(nbShapes: number) {
 
-            this.nbShapes = nbShapes;
-
             // To create shapes, get random octagon and expand it until there is no octagon left
             // First, create starting point of all shapes
-            for (let i = 0; i < this.nbShapes; i++) {
+            for (let i = 0; i < nbShapes; i++) {
                 this.shapes[i] = new Shape(this.game, this);
                 let n: Octagon = chance.pickone(chance.pickone(this.nonNullOctagons));
                 while (n.hasShape) {

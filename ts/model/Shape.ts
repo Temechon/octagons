@@ -12,25 +12,20 @@ module OCT {
         private _nbRows = 0;
         private _nbCols = 0;
 
-        public center: Phaser.Point;
-
-        private _center: Phaser.Graphics;
+        private _center: Phaser.Point;
 
         constructor(game: Phaser.Game, public grid: Grid) {
             super(game);
 
-            this.center = new Phaser.Point(0, 0);
-
-            this._center = this.game.add.graphics(0, 0);
-            this._center.beginFill(0xFF0000);
-            this._center.drawCircle(0, 0, 25);
-            this._center.endFill();
-            this.addChild(this._center);
+            let origin = this.game.add.graphics(0, 0);
+            origin.beginFill(0x0000ff);
+            origin.drawCircle(0, 0, 25);
+            origin.endFill();
+            this.addChild(origin);
 
             // Activate drag n drop
             this.inputEnableChildren = true;
 
-            let startx, starty;
             this.onChildInputDown.add((children: Phaser.Sprite, pi: Phaser.Pointer) => {
                 this._picked = true;
                 this.dragStartCoords.x = pi.x - this.x;
@@ -65,40 +60,47 @@ module OCT {
             this._nbCols = this.octagons.map(oct => oct.col).filter(Helpers.distinct).length;
         }
 
-        private _updateCenter() {
-            this.center.x = this.center.y = 0;
-            for (let oct of this.octagons) {
-                oct.updateTransform();
-                this.center.x += oct.worldPosition.x;
-                this.center.y += oct.worldPosition.y;
-            }
-
-            this.center.x /= this.octagons.length;
-            this.center.y /= this.octagons.length;
-
-            this._center.kill();
-            this.removeChild(this._center);
-            this._center = this.game.add.graphics(0, 0);
-            this._center.beginFill(0xFF0000);
-            this._center.drawCircle(this.center.x, this.center.y, 25);
-            this._center.endFill();
-            this.addChild(this._center);
-            this.bringToTop(this._center);
-        }
-
         public debug() {
-            let rect = this.game.add.graphics(-this.widthPx / 2, -this.heightPx / 2);
-            rect.lineStyle(5, 0x00ff00);
-            rect.drawRect(0, 0, this.widthPx, this.heightPx);
-            rect.endFill();
-            this.addChild(rect)
-            console.log(this.widthPx, this.heightPx)
+            this._updateCenter();
+            let gcenter = this.game.add.graphics(0, 0);
+            gcenter.beginFill(0xFF0000);
+            gcenter.drawCircle(this._center.x, this._center.y, 15);
+            gcenter.endFill();
+            this.addChild(gcenter);
+            this.bringToTop(gcenter);
         }
 
+
+        private _updateCenter() {
+            this._center = new Phaser.Point(0, 0);
+            this.updateTransform();
+            // Bounding box
+            let xmin = Math.min(...this.octagons.map(o => o.worldPosition.x));
+            let ymin = Math.min(...this.octagons.map(o => o.worldPosition.y));
+            let xmax = Math.max(...this.octagons.map(o => o.worldPosition.x));
+            let ymax = Math.max(...this.octagons.map(o => o.worldPosition.y));
+
+            let width = (xmax - xmin);
+            let height = (ymax - ymin);
+
+            let bbox = this.game.add.graphics(0, 0);
+            bbox.lineStyle(3, 0x00ff00);
+            bbox.drawRect(xmin - this.x, ymin - this.y, width, height);
+            bbox.endFill();
+            this.addChild(bbox);
+            this.bringToTop(bbox);
+
+            this._center.x = (xmin - this.x) + width / 2;
+            this._center.y = (ymin - this.y) + height / 2;
+        }
+
+        /**
+         * Set the shape to the given x/y coordinates, where x/y are the top-left coordinates
+         */
         public setAt(x: number, y: number) {
-            let diff = Phaser.Point.subtract(this.worldPosition as Phaser.Point, this.center);
-            this.x = x + diff.x;
-            this.y = y + diff.y;
+            this._updateCenter();
+            this.x = x - this._center.x;
+            this.y = y - this._center.y;
         }
 
         public get widthPx(): number {
@@ -135,17 +137,15 @@ module OCT {
         public addGeometry(geo: Geometry) {
             if (geo instanceof Octagon) {
                 this.octagons.push(geo as Octagon);
-                this._updateCenter();
             }
             if (geo instanceof Diamond) {
                 this.diamonds.push(geo as Diamond);
             }
 
+            this._countRowsCols();
             geo.shape = this;
             geo.updateColor(this.color);
             this.add(geo);
-
-            this._countRowsCols();
         }
 
         public updateColor(color: number) {

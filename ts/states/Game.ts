@@ -52,28 +52,25 @@ module OCT {
                 s.debug();
             }
 
+            const pack = new MaxRectsBinPack.MaxRectsBinPack(this.game.width, this.game.height / 2, false);
+            let rects = [];
+            let tmp = 0;
+            for (let s = 0; s < g.shapes.length; s++) {
+                let shape = g.shapes[s];
+                rects.push({
+                    width: shape.widthPx,
+                    height: shape.heightPx,
+                    id: (s).toString()
+                });
+            }
 
+            const result = pack.insert2(rects, MaxRectsBinPack.ContactPointRule)
+            console.log(result);
 
-
-            // const pack = new MaxRectsBinPack.MaxRectsBinPack(this.game.width, this.game.height / 2, false);
-            // let rects = [];
-            // let tmp = 0;
-            // for (let s = 0; s < g.shapes.length; s++) {
-            //     let shape = g.shapes[s];
-            //     rects.push({
-            //         width: shape.widthPx,
-            //         height: shape.heightPx,
-            //         id: (s).toString()
-            //     });
-            // }
-
-            // const result = pack.insert2(rects, MaxRectsBinPack.BestShortSideFit)
-            // console.log(result);
-
-            // for (let obj of result) {
-            //     let index = parseInt(obj.id);
-            //     g.shapes[index].setAt(obj.x + this.game.width / 2, obj.y + this.game.height / 2);
-            // }
+            for (let obj of result) {
+                let index = parseInt(obj.id);
+                g.shapes[index].setAt(obj.x + 300, obj.y + this.game.height / 2);
+            }
 
             this.game.input.addMoveCallback((pi) => {
                 for (let shape of g.shapes) {
