@@ -12,7 +12,7 @@ module OCT {
         private _nbRows = 0;
         private _nbCols = 0;
 
-        private _center: Phaser.Point;
+        public center: Phaser.Point;
 
         constructor(game: Phaser.Game, public grid: Grid) {
             super(game);
@@ -69,7 +69,7 @@ module OCT {
             this._updateCenter();
             let gcenter = this.game.add.graphics(0, 0);
             gcenter.beginFill(0xFF0000);
-            gcenter.drawCircle(this._center.x, this._center.y, 15);
+            gcenter.drawCircle(this.center.x, this.center.y, 15);
             gcenter.endFill();
             this.addChild(gcenter);
             this.bringToTop(gcenter);
@@ -77,7 +77,7 @@ module OCT {
 
 
         private _updateCenter() {
-            this._center = new Phaser.Point(0, 0);
+            this.center = new Phaser.Point(0, 0);
             this.updateTransform();
             // Bounding box
             let xmin = Math.min(...this.octagons.map(o => o.worldPosition.x));
@@ -95,17 +95,16 @@ module OCT {
             // this.addChild(bbox);
             // this.bringToTop(bbox);
 
-            this._center.x = (xmin - this.x) + width / 2;
-            this._center.y = (ymin - this.y) + height / 2;
+            this.center.x = (xmin - this.x) + width / 2;
+            this.center.y = (ymin - this.y) + height / 2;
         }
 
         /**
-         * Set the shape to the given x/y coordinates, where x/y are the top-left coordinates
+         * Set the shape to the given x/y coordinates
          */
         public setAt(x: number, y: number) {
-            this._updateCenter();
-            this.x = x - this._center.x;
-            this.y = y - this._center.y;
+            this.x = x - this.center.x;
+            this.y = y - this.center.y;
         }
 
         public get widthPx(): number {
@@ -151,6 +150,8 @@ module OCT {
             geo.shape = this;
             geo.updateColor(this.color);
             this.add(geo);
+
+            this._updateCenter();
         }
 
         public updateColor(color: number) {
