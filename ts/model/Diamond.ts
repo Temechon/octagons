@@ -15,6 +15,9 @@ module OCT {
 
         /**
          * Returns an array of point to draw a diamond
+         *     0
+         *   3   1
+         *     4
          */
 
         protected _shape(x, y, width) {

@@ -54,5 +54,11 @@ module OCT {
         public equals(other: Geometry): boolean {
             return this.name === other.name;
         }
+
+        public drawOn(g: Phaser.Graphics, scale = 1) {
+            g.beginFill(0x0000);
+            g.drawPolygon(this._shape(this.x, this.y, this.size * scale));
+            g.endFill();
+        }
     }
 }

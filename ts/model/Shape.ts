@@ -14,6 +14,8 @@ module OCT {
 
         public center: Phaser.Point;
 
+        outline: Phaser.Graphics;
+
         constructor(game: Phaser.Game, public grid: Grid) {
             super(game);
 
@@ -22,6 +24,9 @@ module OCT {
             origin.drawCircle(0, 0, 25);
             origin.endFill();
             this.addChild(origin);
+
+            this.outline = this.game.add.graphics(0, 0);
+            this.addChild(this.outline);
 
             // Activate drag n drop
             this.inputEnableChildren = true;
@@ -141,9 +146,13 @@ module OCT {
         public addGeometry(geo: Geometry) {
             if (geo instanceof Octagon) {
                 this.octagons.push(geo as Octagon);
+                // Draw on outline
+                geo.drawOn(this.outline, 1.2);
             }
             if (geo instanceof Diamond) {
                 this.diamonds.push(geo as Diamond);
+                // Draw on outline
+                geo.drawOn(this.outline, 1.4);
             }
 
             this._countRowsCols();
@@ -152,6 +161,7 @@ module OCT {
             this.add(geo);
 
             this._updateCenter();
+
         }
 
         public updateColor(color: number) {
@@ -189,6 +199,6 @@ module OCT {
             }
             return false;
         }
-
     }
+
 }
