@@ -245,7 +245,13 @@ module OCT {
             let theoricalWidth = availWidth / this.col;
 
             let theoricalHeight = bounds.height / 2 / this.row;
-            this.size = Math.min(theoricalWidth, theoricalHeight);
+            let maxSize = Math.min(theoricalWidth, theoricalHeight);
+
+            if (maxSize < 50) {
+                this.size = maxSize;
+            } else {
+                this.size = 50;
+            }
         }
 
         public getOctagon(row: number, col: number): Octagon {
