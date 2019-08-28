@@ -7,8 +7,6 @@ module OCT {
         private _picked = false;
         private dragStartCoords: { x: number, y: number } = { x: 0, y: 0 };
 
-        public color: number;
-
         private _nbRows = 0;
         private _nbCols = 0;
 
@@ -16,16 +14,17 @@ module OCT {
 
         outline: Phaser.Graphics;
 
-        constructor(game: Phaser.Game, public grid: Grid) {
+        constructor(game: Phaser.Game, public grid: Grid, public color: number) {
             super(game);
 
-            let origin = this.game.add.graphics(0, 0);
-            origin.beginFill(0x0000ff);
-            origin.drawCircle(0, 0, 25);
-            origin.endFill();
-            this.addChild(origin);
+            // let origin = this.game.add.graphics(0, 0);
+            // origin.beginFill(0x0000ff);
+            // origin.drawCircle(0, 0, 25);
+            // origin.endFill();
+            // this.addChild(origin);
 
             this.outline = this.game.add.graphics(0, 0);
+            this.outline.visible = false;
             this.addChild(this.outline);
 
             // Activate drag n drop
@@ -36,9 +35,11 @@ module OCT {
                 this.dragStartCoords.x = pi.x - this.x;
                 this.dragStartCoords.y = pi.y - this.y;
                 this.game.world.bringToTop(this);
+                this.highlight();
             });
             this.onChildInputUp.add((sprite, pi: Phaser.Pointer) => {
                 this._picked = false;
+                this.highlight();
 
                 this.updateTransform();
 
@@ -68,6 +69,10 @@ module OCT {
         private _countRowsCols() {
             this._nbRows = this.octagons.map(oct => oct.row).filter(Helpers.distinct).length;
             this._nbCols = this.octagons.map(oct => oct.col).filter(Helpers.distinct).length;
+        }
+
+        public highlight() {
+            this.outline.visible = !this.outline.visible;
         }
 
         public debug() {
@@ -147,12 +152,12 @@ module OCT {
             if (geo instanceof Octagon) {
                 this.octagons.push(geo as Octagon);
                 // Draw on outline
-                geo.drawOn(this.outline, 1.2);
+                geo.drawOn(this.outline, 1.2, Helpers.shadeBlendConvert(this.color, -0.4));
             }
             if (geo instanceof Diamond) {
                 this.diamonds.push(geo as Diamond);
                 // Draw on outline
-                geo.drawOn(this.outline, 1.4);
+                geo.drawOn(this.outline, 1.4, Helpers.shadeBlendConvert(this.color, -0.4));
             }
 
             this._countRowsCols();

@@ -55,8 +55,8 @@ module OCT {
             return this.name === other.name;
         }
 
-        public drawOn(g: Phaser.Graphics, scale = 1) {
-            g.beginFill(0x0000);
+        public drawOn(g: Phaser.Graphics, scale = 1, color = 0x000000) {
+            g.beginFill(color);
             g.drawPolygon(this._shape(this.x, this.y, this.size * scale));
             g.endFill();
         }

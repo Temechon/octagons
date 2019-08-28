@@ -168,7 +168,7 @@ module OCT {
             // To create shapes, get random octagon and expand it until there is no octagon left
             // First, create starting point of all shapes
             for (let i = 0; i < nbShapes; i++) {
-                this.shapes[i] = new Shape(this.game, this);
+                this.shapes[i] = new Shape(this.game, this, Phaser.Color.getRandomColor());
                 let n: Octagon = chance.pickone(chance.pickone(this.nonNullOctagons));
                 while (n.hasShape) {
                     n = chance.pickone(chance.pickone(this.nonNullOctagons));
@@ -176,7 +176,6 @@ module OCT {
                 n.shape = this.shapes[i];
                 let clone = n.clone() as Octagon;
                 this.shapes[i].addGeometry(clone);
-                this.shapes[i].updateColor(Phaser.Color.getRandomColor());
             }
 
             // Get all non null octgons without shapes
@@ -198,7 +197,7 @@ module OCT {
                     // Add this single octagon to a new shape
                     let oct = singles[0];
                     let clone = oct.clone() as Octagon;
-                    let s = new Shape(this.game, this);
+                    let s = new Shape(this.game, this, Phaser.Color.getRandomColor());
                     this.shapes.push(s);
                     oct.shape = s;
                     s.addGeometry(clone);
