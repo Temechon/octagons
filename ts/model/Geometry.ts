@@ -9,7 +9,8 @@ module OCT {
             public row: number,
             public col: number,
             public size: number,
-            public color: number) {
+            public color: number,
+            public alphacolor: number = 1) {
             super(game, x, y);
 
             this._build();
@@ -36,7 +37,7 @@ module OCT {
 
         private _build() {
             let graphics = this.game.add.graphics(0, 0);
-            graphics.beginFill(this.color);
+            graphics.beginFill(this.color, this.alphacolor);
             graphics.drawPolygon(this._shape(0, 0, this.size));
             graphics.endFill();
 

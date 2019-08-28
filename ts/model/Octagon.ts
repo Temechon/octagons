@@ -9,8 +9,9 @@ module OCT {
             row: number,
             col: number,
             size: number,
-            color: number) {
-            super(game, x, y, row, col, size, color);
+            color: number,
+            alpha?: number) {
+            super(game, x, y, row, col, size, color, alpha);
         }
 
         /**

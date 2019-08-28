@@ -63,7 +63,8 @@ module OCT {
                         i * this.size,
                         i, j,
                         this.size,
-                        0x333333);
+                        0x333333,
+                        0.25);
                     this.octagons[i][j] = oct;
                     this.add(oct);
                 }
@@ -80,7 +81,8 @@ module OCT {
                         i * this.size + this.size / 2,
                         i, j,
                         this._diamSize,
-                        0x555555);
+                        0x333333,
+                        0.25);
                     this.diamonds[i][j] = diams;
                     this.add(diams);
                 }
