@@ -50,11 +50,11 @@ module OCT {
             // this.load.image('button.pause', 'assets/pause.png');
             // this.load.image('button.puzzle', 'assets/puzzle.png');
             // this.load.image('button.back', 'assets/back.png');
-            // // Tutorial
-            // this.load.image('tap', 'assets/hands/tap.png');
-            // this.load.image('tap_down', 'assets/hands/tap_down.png');
-            // // Levels
-            // this.load.text('levels', 'assets/maps/levels.csv');
+            // Tutorial
+            this.load.image('tap', 'assets/hands/tap.png');
+            this.load.image('tap_down', 'assets/hands/tap_down.png');
+            // Levels
+            this.load.text('levels', 'assets/levels.csv');
         }
 
         create() {

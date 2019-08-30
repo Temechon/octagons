@@ -117,21 +117,20 @@ module OCT {
             }
         }
 
-        public static Build(game: Phaser.Game, str: string): Grid {
-            let res = JSON.parse(str);
-            let grid = new Grid(game, res.row, res.col);
+        public static Build(game: Phaser.Game, options: any): Grid {
+            let grid = new Grid(game, options.row, options.col);
 
-            for (let i = 0; i < res.row; i++) {
-                for (let j = 0; j < res.col; j++) {
-                    if (res.octagons[i][j] === 0) {
+            for (let i = 0; i < options.row; i++) {
+                for (let j = 0; j < options.col; j++) {
+                    if (options.octagons[i][j] === 0) {
                         grid.setOctagon(i, j, null);
                     }
                 }
             }
 
-            for (let i = 0; i < res.row - 1; i++) {
-                for (let j = 0; j < res.col - 1; j++) {
-                    if (res.diamonds[i][j] === 0) {
+            for (let i = 0; i < options.row - 1; i++) {
+                for (let j = 0; j < options.col - 1; j++) {
+                    if (options.diamonds[i][j] === 0) {
                         grid.setDiamond(i, j, null);
                     }
                 }
@@ -263,13 +262,21 @@ module OCT {
         }
 
         public setOctagon(row: number, col: number, value: Octagon) {
-            if (this._isInGrid(row, col)) {
+            if (value === null) {
+                this.octagons[row][col].destroy();
+                this.octagons[row][col] = null;
+            }
+            else if (this._isInGrid(row, col)) {
                 this.octagons[row][col] = value;
             }
         }
 
         public setDiamond(row: number, col: number, value: Diamond) {
-            if (this._isDiamondInGrid(row, col)) {
+            if (value === null) {
+                this.diamonds[row][col].destroy();
+                this.diamonds[row][col] = null;
+            }
+            else if (this._isDiamondInGrid(row, col)) {
                 this.diamonds[row][col] = value;
             }
         }
