@@ -63,6 +63,7 @@ module OCT {
                 if (this.grid.checkVictory()) {
                     this.grid.onVictory();
                 }
+
             });
         }
 

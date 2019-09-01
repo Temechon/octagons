@@ -5,7 +5,7 @@ module OCT {
 
         private _levels: Array<Level> = [];
 
-        private _currentLevel: Level;
+        public currentLevel: number = 0;
 
         constructor(private game: Phaser.Game) {
 
@@ -25,8 +25,10 @@ module OCT {
             }
         }
 
-        public nextLevel() {
-
+        public nextLevel(): Level {
+            let level = this._levels[this.currentLevel];
+            level.build();
+            return level;
         }
     }
 }

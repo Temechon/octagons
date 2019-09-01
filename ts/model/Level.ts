@@ -6,17 +6,17 @@ module OCT {
         /** The level design */
         public grid: Grid;
 
-        constructor(private game: Phaser.Game, options: any) {
-            this.grid = Grid.Build(game, options);
+        constructor(private game: Phaser.Game, private _options: any) {
 
-            this.grid.x = game.world.centerX;
-            this.grid.y = this.grid.heightPx / 2 + 150 * ratio;
+        }
+
+        public build() {
+            this.grid = Grid.Build(this.game, this._options);
+
+            this.grid.x = this.game.world.centerX;
+            this.grid.y = this.grid.heightPx / 2 + 300 * ratio;
 
             this.grid.buildShapes(2);
-
-            this.grid.onVictory = () => {
-                game.state.start('finish', false);
-            }
 
             this._updateShapePositions(this.grid);
 

@@ -5,7 +5,7 @@ module OCT {
 
         create() {
 
-            this.game.stage.backgroundColor = '#fee2d7';
+            this.game.stage.backgroundColor = '#F2F2F2';
 
             // * Debug Bounds
             // var graphics = this.game.add.graphics(0, 0);

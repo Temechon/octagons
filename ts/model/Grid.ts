@@ -50,7 +50,7 @@ module OCT {
 
             this._computeBestSize();
 
-            this._diamSize = this.size / (1 + Math.sqrt(2)) + 1;
+            this._diamSize = this.size / (1 + Math.sqrt(2));
 
             // Create octagons
             for (let i = 0; i < this.row; i++) {
@@ -63,8 +63,8 @@ module OCT {
                         i * this.size,
                         i, j,
                         this.size,
-                        0x333333,
-                        0.25);
+                        0xcecece,
+                        1);
                     this.octagons[i][j] = oct;
                     this.add(oct);
                 }
@@ -81,8 +81,8 @@ module OCT {
                         i * this.size + this.size / 2,
                         i, j,
                         this._diamSize,
-                        0x333333,
-                        0.25);
+                        0xcecece,
+                        1);
                     this.diamonds[i][j] = diams;
                     this.add(diams);
                 }
@@ -247,10 +247,10 @@ module OCT {
             let theoricalHeight = bounds.height / 2 / this.row;
             let maxSize = Math.min(theoricalWidth, theoricalHeight);
 
-            if (maxSize < 50) {
+            if (maxSize < 60) {
                 this.size = maxSize;
             } else {
-                this.size = 50;
+                this.size = 60;
             }
         }
 
