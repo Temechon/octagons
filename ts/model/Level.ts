@@ -6,7 +6,7 @@ module OCT {
         /** The level design */
         public grid: Grid;
 
-        constructor(private game: Phaser.Game, private _options: any) {
+        constructor(private game: Phaser.Game, private _options: { row: number, col: number, shapes: number }) {
 
         }
 
@@ -16,7 +16,7 @@ module OCT {
             this.grid.x = this.game.world.centerX;
             this.grid.y = this.grid.heightPx / 2 + 300 * ratio;
 
-            this.grid.buildShapes(2);
+            this.grid.buildShapes(this._options.shapes);
 
             this._updateShapePositions(this.grid);
 
@@ -76,7 +76,14 @@ module OCT {
 
             return new Promise((resolve, reject) => {
                 // Destroy grid and send them away
-                let timeto = 500;
+                let timeto = 750;
+
+                for (let shape of this.grid.shapes) {
+                    shape.forEach((e) => {
+                        this.game.add.tween(e).to({ y: this.game.height }, timeto, Phaser.Easing.Back.In, true);
+                        this.game.add.tween(e).to({ opacity: 0 }, timeto, Phaser.Easing.Linear.None, true);
+                    })
+                }
 
                 this.game.add.tween(this.grid).to({ y: this.game.height }, timeto, Phaser.Easing.Back.In, true);
                 let finaltween = this.game.add.tween(this.grid).to({ opacity: 0 }, timeto, Phaser.Easing.Linear.None, true);

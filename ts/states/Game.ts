@@ -7,6 +7,8 @@ module OCT {
 
         public static INSTANCE: Game;
         public static _toKill = [];
+        private lm: LevelManager;
+        private currentLevel: Level;
 
         constructor() {
             super();
@@ -30,18 +32,17 @@ module OCT {
             // graphics.drawRect(bounds.x, bounds.y, bounds.width, bounds.height);
             // graphics.endFill();
 
-            let lm = new LevelManager(this.game);
-            let level = lm.nextLevel();
+            this.lm = new LevelManager(this.game);
+            this.currentLevel = this.lm.nextLevel();
 
-
-            level.grid.onVictory = () => {
-                this.game.state.start('finish', false);
+            this.currentLevel.grid.onVictory = () => {
+                this._displayNextButton();
             }
 
-            if (lm.currentLevel === 0) {
+            if (this.lm.currentLevel === 0) {
                 // Display tutorial
-                this.displayTutorial(level).then(() => {
-                    this.destroy()
+                this.displayTutorial(this.currentLevel).then(() => {
+                    this.destroyTutorial()
                 });
             }
 
@@ -49,10 +50,65 @@ module OCT {
 
         }
 
-        private destroy() {
+        private destroyTutorial() {
             for (let res of Game._toKill) {
                 res.destroy();
             }
+        }
+
+        private _displayNextButton() {
+            let buttonGroup = this.game.add.group();
+
+            let overlay = this.game.add.graphics(0, 0);
+            overlay.beginFill(0x000000);
+            overlay.fillAlpha = 0.6;
+            overlay.drawRect(0, 0, this.game.width, this.game.height);
+            overlay.endFill();
+            overlay.inputEnabled = true;
+            overlay.events.onInputDown.add(() => false)
+            buttonGroup.add(overlay);
+
+            let margin = 50 * ratio;
+            let startx = bounds.x + margin;
+            let background = this.game.add.graphics(0, 0);
+            background.beginFill(0x2B3A42);
+            let backgroundHeight = 0;
+            backgroundHeight = bounds.height / 2.25;
+            background.drawRoundedRect(startx, bounds.y + margin, bounds.width - margin * 2, backgroundHeight, 20 * ratio);
+            background.endFill();
+            background.y = this.game.height / 2 - background.height / 2;
+            background.inputEnabled = true;
+            background.events.onInputDown.add(() => false)
+            buttonGroup.add(background);
+
+
+            // SYMMETRY
+            let style = { font: Helpers.font(120, 'KeepCalm'), fill: "#E84A5F", align: "center" };
+            let title = this.game.add.text(this.game.width / 2, bounds.y + 200 * ratio, "OCTAGONS", style);
+            title.anchor.set(0.5);
+            title.setShadow(-4 * ratio, -4 * ratio, "#ffffff", 3 * ratio, true, true);
+            buttonGroup.add(title);
+
+            // Game over 
+            style = { font: Helpers.font(80, 'KeepCalm'), fill: "#ffffff", align: "center" };
+            let gameover = this.game.add.text(this.game.width / 2, background.y + 1.5 * margin, "Awesome !", style);
+            gameover.anchor.set(0.5, 0);
+            buttonGroup.add(gameover);
+
+            // Home button
+            let homebutton = new Button(this.game, { w: 400 * ratio, h: 100 * ratio }, 0xFF8984, "Next", 60)
+            homebutton.onInputDown = () => {
+                buttonGroup.destroy();
+                this.currentLevel.destroy().then(() => {
+                    this.lm.currentLevel++;
+                    this.currentLevel = this.lm.nextLevel();
+                    this.currentLevel.grid.onVictory = () => {
+                        this._displayNextButton();
+                    }
+                })
+            };
+            homebutton.setAt(this.game.width / 2, background.y + background.height - 50 * ratio);
+            buttonGroup.add(homebutton);
         }
 
         private displayTutorial(level: Level) {

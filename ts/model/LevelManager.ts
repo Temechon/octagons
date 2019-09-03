@@ -26,8 +26,16 @@ module OCT {
         }
 
         public nextLevel(): Level {
-            let level = this._levels[this.currentLevel];
-            level.build();
+            let level: Level;
+            if (this.currentLevel >= this._levels.length) {
+                level = new Level(this.game, {
+                    row: 10, col: 10, shapes: 10
+                })
+                level.build();
+            } else {
+                level = this._levels[this.currentLevel];
+                level.build();
+            }
             return level;
         }
     }

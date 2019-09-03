@@ -120,18 +120,20 @@ module OCT {
         public static Build(game: Phaser.Game, options: any): Grid {
             let grid = new Grid(game, options.row, options.col);
 
-            for (let i = 0; i < options.row; i++) {
-                for (let j = 0; j < options.col; j++) {
-                    if (options.octagons[i][j] === 0) {
-                        grid.setOctagon(i, j, null);
+            if (options.octagons) {
+                for (let i = 0; i < options.row; i++) {
+                    for (let j = 0; j < options.col; j++) {
+                        if (options.octagons[i][j] === 0) {
+                            grid.setOctagon(i, j, null);
+                        }
                     }
                 }
-            }
 
-            for (let i = 0; i < options.row - 1; i++) {
-                for (let j = 0; j < options.col - 1; j++) {
-                    if (options.diamonds[i][j] === 0) {
-                        grid.setDiamond(i, j, null);
+                for (let i = 0; i < options.row - 1; i++) {
+                    for (let j = 0; j < options.col - 1; j++) {
+                        if (options.diamonds[i][j] === 0) {
+                            grid.setDiamond(i, j, null);
+                        }
                     }
                 }
             }
@@ -427,6 +429,13 @@ module OCT {
                 res = res && Phaser.Point.distance(this.worldPosition, s.worldPosition) < epsilon;
             }
             return res;
+        }
+
+        public destroy() {
+            super.destroy();
+            for (let s of this.shapes) {
+                s.destroy();
+            }
         }
     }
 
