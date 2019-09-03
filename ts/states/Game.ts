@@ -47,7 +47,6 @@ module OCT {
             }
 
 
-
         }
 
         private destroyTutorial() {
@@ -73,7 +72,7 @@ module OCT {
             let background = this.game.add.graphics(0, 0);
             background.beginFill(0x2B3A42);
             let backgroundHeight = 0;
-            backgroundHeight = bounds.height / 2.25;
+            backgroundHeight = 350 * ratio;
             background.drawRoundedRect(startx, bounds.y + margin, bounds.width - margin * 2, backgroundHeight, 20 * ratio);
             background.endFill();
             background.y = this.game.height / 2 - background.height / 2;
