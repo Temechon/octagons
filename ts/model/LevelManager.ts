@@ -7,6 +7,12 @@ module OCT {
 
         public currentLevel: number = 0;
 
+        private _difficulty: {
+            row: number,
+            col: number,
+            shapes: number
+        };
+
         constructor(private game: Phaser.Game) {
 
             // Load the levels file and create all levels
@@ -23,14 +29,26 @@ module OCT {
 
                 this._levels.push(level);
             }
+
+            this._difficulty = {
+                row: 3,
+                col: 3,
+                shapes: 3
+            }
         }
 
         public nextLevel(): Level {
             let level: Level;
+
+            // Increase difficulty
+            this._difficulty;
+            // TODO
+
+
+            level = new Level(this.game, this._difficulty)
+
+
             if (this.currentLevel >= this._levels.length) {
-                level = new Level(this.game, {
-                    row: 10, col: 10, shapes: 10
-                })
                 level.build();
             } else {
                 level = this._levels[this.currentLevel];
