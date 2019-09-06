@@ -33,7 +33,7 @@ module OCT {
             this._difficulty = {
                 row: 3,
                 col: 3,
-                shapes: 3
+                shapes: 10
             }
         }
 
@@ -41,19 +41,21 @@ module OCT {
             let level: Level;
 
             // Increase difficulty
-            this._difficulty;
+            this._difficulty.row = 6;
+            this._difficulty.col = 6;
             // TODO
 
 
             level = new Level(this.game, this._difficulty)
+            level.build();
 
 
-            if (this.currentLevel >= this._levels.length) {
-                level.build();
-            } else {
-                level = this._levels[this.currentLevel];
-                level.build();
-            }
+            // if (this.currentLevel >= this._levels.length) {
+            //     level.build();
+            // } else {
+            //     level = this._levels[this.currentLevel];
+            //     level.build();
+            // }
             return level;
         }
     }
