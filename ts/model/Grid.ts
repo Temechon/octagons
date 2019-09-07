@@ -1,10 +1,13 @@
 module OCT {
 
+    declare var randomColor;
+
     /**
      * A set of octagons and diamonds.
      * If N is the number of octagons on a line, n-1 is the number of square on the same line
      */
     export class Grid extends Phaser.Group {
+
 
         /** Direction where this cell neighbours are */
         public static DIRECTIONS = {
@@ -168,10 +171,16 @@ module OCT {
          */
         public buildShapes(nbShapes: number) {
 
+            let colors = randomColor({
+                count: nbShapes,
+                luminosity: 'bright',
+                hue: 'random'
+            });
+
             // To create shapes, get random octagon and expand it until there is no octagon left
             // First, create starting point of all shapes
             for (let i = 0; i < nbShapes; i++) {
-                this.shapes[i] = new Shape(this.game, this, Phaser.Color.getRandomColor());
+                this.shapes[i] = new Shape(this.game, this, Phaser.Color.hexToColor(colors[i]).color);
                 let n: Octagon = chance.pickone(chance.pickone(this.nonNullOctagons));
                 while (n.hasShape) {
                     n = chance.pickone(chance.pickone(this.nonNullOctagons));
