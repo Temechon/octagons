@@ -12,7 +12,8 @@ module OCT {
 
         public center: Phaser.Point;
 
-        outline: Phaser.Graphics;
+        private outline: Phaser.Graphics;
+        private smallOutline: Phaser.Graphics;
 
         constructor(game: Phaser.Game, public grid: Grid, public color: number) {
             super(game);
@@ -26,6 +27,10 @@ module OCT {
             this.outline = this.game.add.graphics(0, 0);
             this.outline.visible = false;
             this.addChild(this.outline);
+
+
+            this.smallOutline = this.game.add.graphics(0, 0);
+            this.addChild(this.smallOutline);
 
             // Activate drag n drop
             this.inputEnableChildren = true;
@@ -154,11 +159,13 @@ module OCT {
                 this.octagons.push(geo as Octagon);
                 // Draw on outline
                 geo.drawOn(this.outline, 1.2, Helpers.shadeBlendConvert(this.color, -0.4));
+                geo.drawOn(this.smallOutline, 1.1, Helpers.shadeBlendConvert(this.color, -0.2));
             }
             if (geo instanceof Diamond) {
                 this.diamonds.push(geo as Diamond);
                 // Draw on outline
                 geo.drawOn(this.outline, 1.4, Helpers.shadeBlendConvert(this.color, -0.4));
+                geo.drawOn(this.smallOutline, 1.25, Helpers.shadeBlendConvert(this.color, -0.2));
             }
 
             this._countRowsCols();
