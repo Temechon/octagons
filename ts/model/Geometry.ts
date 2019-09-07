@@ -52,6 +52,11 @@ module OCT {
             this._build();
         }
 
+        public blink() {
+
+            this.game.add.tween(this).to({ alpha: 0 }, 750, null, true, 0, -1, true);
+        }
+
         public equals(other: Geometry): boolean {
             return this.name === other.name;
         }

@@ -50,6 +50,8 @@ module OCT {
             level = new Level(this.game, this._difficulty)
             level.build();
 
+            level.grid.shapes[0].blink(level.grid.shapes[0].octagons[0]);
+
 
             // if (this.currentLevel >= this._levels.length) {
             //     level.build();

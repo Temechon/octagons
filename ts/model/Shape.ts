@@ -154,18 +154,32 @@ module OCT {
             return nearest;
         }
 
+        public blink(geo: Geometry) {
+            let mygeo: Geometry;
+            if (geo instanceof Diamond) {
+                let index = this.diamonds.indexOf(geo);
+                mygeo = this.diamonds[index];
+            }
+            if (geo instanceof Octagon) {
+                let index = this.octagons.indexOf(geo);
+                mygeo = this.octagons[index];
+            }
+            mygeo.blink();
+            this.game.world.bringToTop(this);
+        }
+
         public addGeometry(geo: Geometry) {
             if (geo instanceof Octagon) {
                 this.octagons.push(geo as Octagon);
                 // Draw on outline
                 geo.drawOn(this.outline, 1.2, Helpers.shadeBlendConvert(this.color, -0.4));
-                geo.drawOn(this.smallOutline, 1.1, Helpers.shadeBlendConvert(this.color, -0.2));
+                geo.drawOn(this.smallOutline, 1.05, Helpers.shadeBlendConvert(this.color, -0.1));
             }
             if (geo instanceof Diamond) {
                 this.diamonds.push(geo as Diamond);
                 // Draw on outline
-                geo.drawOn(this.outline, 1.4, Helpers.shadeBlendConvert(this.color, -0.4));
-                geo.drawOn(this.smallOutline, 1.25, Helpers.shadeBlendConvert(this.color, -0.2));
+                geo.drawOn(this.outline, 1.5, Helpers.shadeBlendConvert(this.color, -0.4));
+                geo.drawOn(this.smallOutline, 1.1, Helpers.shadeBlendConvert(this.color, -0.1));
             }
 
             this._countRowsCols();
