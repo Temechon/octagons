@@ -10,6 +10,7 @@ module OCT {
         private _rows: number = 3;
         private _cols: number = 3;
         private _grid: Grid;
+        private cellNumberText: Phaser.Text;
 
         constructor() {
             super();
@@ -25,13 +26,15 @@ module OCT {
             // graphics.endFill();
             // * Debug text
             // let style = { font: Helpers.font(70, 'arial'), fill: "#ffffff" };
-            // let t = this.game.add.text(bounds.x, bounds.y, "DPR : " + window.devicePixelRatio, style);
-            // t = this.game.add.text(bounds.x, t.y + t.height, "RES : " + window.innerWidth + "x" + window.innerHeight, style);
-            // t = this.game.add.text(bounds.x, t.y + t.height, "RATIO : " + ratio, style);
-            // this.game.add.text(bounds.x, t.y + t.height, "CELL_SIZE : " + Cell.CELL_SIZE * ratio, style);
+            // let t = this.game.add.text(bounds.x, bounds.y, "Cells : " + window.devicePixelRatio, style);
 
             // * Grid
             this._grid = this.buildGrid();
+
+            // * Number of cells
+            let style = { font: Helpers.font(55, 'Open Sans'), fill: "#204E5F" };
+            this.cellNumberText = this.game.add.text(this.game.width / 2, 100, this._grid.getOctagons(oct => oct !== null).length.toString(), style);
+            this.cellNumberText.anchor.set(0.5, 0.5);
 
             //* GUI
             // Export button            
@@ -45,8 +48,8 @@ module OCT {
             this.exportButton = new Button(this.game, { w: 200 * ratio, h: 80 * ratio }, 0x204E5F, "Reset", 40);
             this.exportButton.setAt(this.game.width / 2 + 150 * ratio, this.game.height - 150 * ratio);
             this.exportButton.onInputDown = () => {
-                // TODO
-                // this._grid.reset();
+                this._grid.destroy();
+                this._grid = this.buildGrid();
             };
             // Grid size           
             let plus1Row = new Button(this.game, { w: 150 * ratio, h: 80 * ratio }, 0x204E5F, "+1 row", 40);
@@ -55,6 +58,7 @@ module OCT {
                 this._rows++;
                 this._grid.destroy();
                 this._grid = this.buildGrid();
+                this.cellNumberText.text = this._grid.getOctagons(oct => oct !== null).length.toString();
             };
             let minus1Row = new Button(this.game, { w: 150 * ratio, h: 80 * ratio }, 0x204E5F, "-1 row", 40);
             minus1Row.setAt(this.game.width / 2 - 100 * ratio, 300 * ratio);
@@ -65,6 +69,7 @@ module OCT {
                 }
                 this._grid.destroy();
                 this._grid = this.buildGrid();
+                this.cellNumberText.text = this._grid.getOctagons(oct => oct !== null).length.toString();
             };
             let plus1Col = new Button(this.game, { w: 150 * ratio, h: 80 * ratio }, 0x204E5F, "+1 col", 40);
             plus1Col.setAt(this.game.width / 2 + 300 * ratio, 300 * ratio);
@@ -72,6 +77,7 @@ module OCT {
                 this._cols++;
                 this._grid.destroy();
                 this._grid = this.buildGrid();
+                this.cellNumberText.text = this._grid.getOctagons(oct => oct !== null).length.toString();
             };
             let minus1Col = new Button(this.game, { w: 150 * ratio, h: 80 * ratio }, 0x204E5F, "-1 col", 40);
             minus1Col.setAt(this.game.width / 2 + 100 * ratio, 300 * ratio);
@@ -82,6 +88,7 @@ module OCT {
                 }
                 this._grid.destroy();
                 this._grid = this.buildGrid();
+                this.cellNumberText.text = this._grid.getOctagons(oct => oct !== null).length.toString();
             };
 
         }
@@ -98,6 +105,7 @@ module OCT {
             grid.onChildInputDown.add((oct: Geometry) => {
                 oct.kill();
                 grid.setGeometry(oct, null);
+                this.cellNumberText.text = this._grid.getOctagons(oct => oct !== null).length.toString();
             });
 
 

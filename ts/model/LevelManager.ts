@@ -43,7 +43,7 @@ module OCT {
             // Increase difficulty
             this._difficulty.row = 7;
             this._difficulty.col = 7;
-            this._difficulty.shapes = 12;
+            this._difficulty.shapes = 9;
             // TODO
 
 
