@@ -34,7 +34,7 @@ module OCT {
             for (let s of grid.shapes) {
 
                 // Get random position inside the game area
-                let pos = this._getRandomPos(bounds);
+                let pos = this._getRandomPos();
 
                 let cpos = new Phaser.Point(
                     s.center.x - s.x + pos.x,
@@ -42,7 +42,7 @@ module OCT {
                 );
 
                 let correct = false;
-                let placementBounds = new Phaser.Rectangle(150, 150, this.game.width - 150, this.game.height - 150)
+                let placementBounds = new Phaser.Rectangle(150, 150, this.game.width - s.widthPx - 150, this.game.height - s.heightPx - 150)
 
                 while (!correct) {
                     if (cpos.x - s.widthPx / 2 > placementBounds.x &&
@@ -53,7 +53,7 @@ module OCT {
                         correct = true;
                         break;
                     }
-                    pos = this._getRandomPos(bounds);
+                    pos = this._getRandomPos();
                     cpos = new Phaser.Point(
                         s.center.x - s.x + pos.x,
                         s.center.y - s.y + pos.y
@@ -63,7 +63,7 @@ module OCT {
             }
         }
 
-        private _getRandomPos(bounds: Phaser.Rectangle): Phaser.Point {
+        private _getRandomPos(): Phaser.Point {
             let res = new Phaser.Point();
             res.x = this.game.rnd.integerInRange(0, this.game.width);
             res.y = this.game.rnd.integerInRange(0, this.game.height);
