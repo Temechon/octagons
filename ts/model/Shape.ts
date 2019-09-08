@@ -64,6 +64,8 @@ module OCT {
                     this.y += octa.worldPosition.y - shapeOcta.worldPosition.y;
                 }
 
+                this.grid.checkOverlap();
+
                 // Check if the game is won
                 if (this.grid.checkVictory()) {
                     this.grid.onVictory();
@@ -152,20 +154,6 @@ module OCT {
                 }
             }
             return nearest;
-        }
-
-        public blink(geo: Geometry) {
-            let mygeo: Geometry;
-            if (geo instanceof Diamond) {
-                let index = this.diamonds.indexOf(geo);
-                mygeo = this.diamonds[index];
-            }
-            if (geo instanceof Octagon) {
-                let index = this.octagons.indexOf(geo);
-                mygeo = this.octagons[index];
-            }
-            mygeo.blink();
-            this.game.world.bringToTop(this);
         }
 
         public addGeometry(geo: Geometry) {

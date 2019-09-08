@@ -49,5 +49,15 @@ module OCT {
             return oct;
         }
 
+        public blink() {
+            this.game.world.updateTransform();
+            let wp = this.worldPosition;
+
+            this._blinker = new Octagon(this.game, this.x, this.y, this.row, this.col, this.size, 0xff0000, 1);
+            this.shape.add(this._blinker);
+            this.game.add.tween(this._blinker).to({ alpha: 0 }, 750, null, true, 0, -1, true);
+            this.game.world.bringToTop(this._blinker);
+        }
+
     }
 }

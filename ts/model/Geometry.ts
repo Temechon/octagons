@@ -23,6 +23,7 @@ module OCT {
         }
 
         public abstract clone(): Geometry;
+        protected _blinker: Phaser.Sprite;
 
         /** The shape this geometry belongs to */
         public shape: Shape = null;
@@ -52,9 +53,12 @@ module OCT {
             this._build();
         }
 
-        public blink() {
+        public abstract blink();
 
-            this.game.add.tween(this).to({ alpha: 0 }, 750, null, true, 0, -1, true);
+        public unblink() {
+            if (this._blinker) {
+                this._blinker.destroy();
+            }
         }
 
         public equals(other: Geometry): boolean {

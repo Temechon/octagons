@@ -43,5 +43,15 @@ module OCT {
             diams.name = this.name;
             return diams;
         }
+
+        public blink() {
+            this.game.world.updateTransform();
+            let wp = this.worldPosition;
+
+            this._blinker = new Diamond(this.game, this.x, this.y, this.row, this.col, this.size, 0xff0000, 1);
+            this.shape.add(this._blinker);
+            this.game.add.tween(this._blinker).to({ alpha: 0 }, 500, null, true, 0, -1, true);
+            this.game.world.bringToTop(this._blinker);
+        }
     }
 }

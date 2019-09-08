@@ -440,6 +440,37 @@ module OCT {
             return res;
         }
 
+        public checkOverlap() {
+            for (let i = 0; i < this.row; i++) {
+                for (let j = 0; j < this.col; j++) {
+                    let oct = this.getOctagon(i, j);
+                    if (oct === null) {
+                        continue;
+                    }
+
+                    let count = [];
+                    for (let s of this.shapes) {
+                        s.updateTransform();
+                        for (let os of s.octagons) {
+                            os.updateTransform();
+                            let dist = Phaser.Point.distance(os.worldPosition, oct.worldPosition)
+                            // console.log(dist);
+
+                            if (dist < 0.1) {
+                                count.push(os);
+                            }
+                        }
+                        if (count.length > 1) {
+                            for (let o of count) {
+                                o.blink();
+                            }
+                        }
+                    }
+
+                }
+            }
+        }
+
         public destroy() {
             super.destroy();
             for (let s of this.shapes) {
