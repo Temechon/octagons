@@ -46,7 +46,10 @@ module OCT {
                 this._picked = false;
                 this.highlight();
 
-                this.unblink();
+                // Unblink for all shapes
+                for (let s of this.grid.shapes) {
+                    s.unblink();
+                }
                 this.updateTransform();
 
                 // Dont auto-align if the pointer is not on the grid

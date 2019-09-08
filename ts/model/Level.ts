@@ -1,5 +1,6 @@
 module OCT {
 
+    declare var MaxRectsBinPack;
 
     export class Level {
 
@@ -31,35 +32,53 @@ module OCT {
         }
 
         private _updateShapePositions(grid: Grid) {
-            for (let s of grid.shapes) {
+            // for (let s of grid.shapes) {
 
-                // Get random position inside the game area
-                let pos = this._getRandomPos();
+            //     // Get random position inside the game area
+            //     let pos = this._getRandomPos();
 
-                let cpos = new Phaser.Point(
-                    s.center.x - s.x + pos.x,
-                    s.center.y - s.y + pos.y
-                );
+            //     let cpos = new Phaser.Point(
+            //         s.center.x - s.x + pos.x,
+            //         s.center.y - s.y + pos.y
+            //     );
 
-                let correct = false;
-                let placementBounds = new Phaser.Rectangle(150, 150, this.game.width - s.widthPx - 150, this.game.height - s.heightPx - 150)
+            //     let correct = false;
+            //     let placementBounds = new Phaser.Rectangle(150, 150, this.game.width - s.widthPx - 150, this.game.height - s.heightPx - 150)
 
-                while (!correct) {
-                    if (cpos.x - s.widthPx / 2 > placementBounds.x &&
-                        cpos.x + s.widthPx / 2 < placementBounds.x + placementBounds.width &&
-                        cpos.y - s.heightPx / 2 > placementBounds.y &&
-                        cpos.y + s.heightPx / 2 < placementBounds.y + placementBounds.height
-                    ) {
-                        correct = true;
-                        break;
-                    }
-                    pos = this._getRandomPos();
-                    cpos = new Phaser.Point(
-                        s.center.x - s.x + pos.x,
-                        s.center.y - s.y + pos.y
-                    );
-                }
-                s.setAt(pos.x, pos.y);
+            //     while (!correct) {
+            //         if (cpos.x - s.widthPx / 2 > placementBounds.x &&
+            //             cpos.x + s.widthPx / 2 < placementBounds.x + placementBounds.width &&
+            //             cpos.y - s.heightPx / 2 > placementBounds.y &&
+            //             cpos.y + s.heightPx / 2 < placementBounds.y + placementBounds.height
+            //         ) {
+            //             correct = true;
+            //             break;
+            //         }
+            //         pos = this._getRandomPos();
+            //         cpos = new Phaser.Point(
+            //             s.center.x - s.x + pos.x,
+            //             s.center.y - s.y + pos.y
+            //         );
+            //     }
+            //     s.setAt(pos.x, pos.y);
+            // }
+            const pack = new MaxRectsBinPack.MaxRectsBinPack(this.game.width, this.game.height / 2, false);
+            let rects = [];
+            let g = this.grid;
+            for (let s = 0; s < g.shapes.length; s++) {
+                let shape = g.shapes[s];
+                rects.push({
+                    width: shape.widthPx,
+                    height: shape.heightPx,
+                    id: (s).toString()
+                });
+            }
+
+            const result = pack.insert2(rects, MaxRectsBinPack.BestShortSideFit)
+
+            for (let obj of result) {
+                let index = parseInt(obj.id);
+                g.shapes[index].setAt(obj.x + this.game.width / 4, obj.y + this.game.height / 2);
             }
         }
 

@@ -54,7 +54,18 @@ module OCT {
             this._build();
         }
 
-        public abstract blink();
+
+        public blink() {
+            if (!this._blinker) {
+                this._blinker = this.clone();
+                this._blinker.updateColor(0xff0000);
+                this.shape.addChild(this._blinker);
+                this._blinker.inputEnabled = false;
+
+                this._blinkerTween = this.game.add.tween(this._blinker).to({ alpha: 0 }, 750, Phaser.Easing.Linear.None, true, 0, -1);
+                this.game.world.bringToTop(this._blinker);
+            }
+        }
 
         public unblink() {
             if (this._blinker) {

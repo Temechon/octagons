@@ -97,15 +97,6 @@ module OCT {
                 c.y -= this.heightPx / 2 - this.size / 2;
             });
 
-            // //* DEBUG
-            // for (let i = 0; i < 5; i++) {
-            //     let oct: Octagon = chance.pickone(chance.pickone(this.nonNullOctagons))
-            //     if (oct) {
-            //         oct.kill();
-            //         this.octagons[oct.row][oct.col] = null;
-            //     }
-            // }
-
         }
 
         public get nonNullOctagons(): Array<Array<Octagon>> {
