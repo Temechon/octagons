@@ -47,8 +47,20 @@ module OCT {
             // TODO
 
 
+
+
             level = new Level(this.game, this._difficulty)
             level.build();
+
+            level.grid.shapes[0].octagons[0].blink()
+
+            setTimeout(() => {
+                level.grid.shapes[0].unblink();
+                console.log(level.grid.shapes[0].length);
+                level.grid.shapes[0].forEach((e) => {
+                    console.log(e);
+                })
+            }, 2000)
 
             // level.grid.shapes[0].blink(level.grid.shapes[0].octagons[0]);
 

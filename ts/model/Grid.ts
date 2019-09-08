@@ -454,10 +454,36 @@ module OCT {
                         for (let os of s.octagons) {
                             os.updateTransform();
                             let dist = Phaser.Point.distance(os.worldPosition, oct.worldPosition)
-                            // console.log(dist);
 
                             if (dist < 0.1) {
                                 count.push(os);
+                            }
+                        }
+                        if (count.length > 1) {
+                            for (let o of count) {
+                                o.blink();
+                            }
+                        }
+                    }
+
+                }
+            }
+            for (let i = 0; i < this.row; i++) {
+                for (let j = 0; j < this.col; j++) {
+                    let diams = this.getDiamond(i, j);
+                    if (diams === null) {
+                        continue;
+                    }
+
+                    let count = [];
+                    for (let s of this.shapes) {
+                        s.updateTransform();
+                        for (let ds of s.diamonds) {
+                            ds.updateTransform();
+                            let dist = Phaser.Point.distance(ds.worldPosition, diams.worldPosition)
+
+                            if (dist < 0.1) {
+                                count.push(ds);
                             }
                         }
                         if (count.length > 1) {

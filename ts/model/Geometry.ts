@@ -23,7 +23,8 @@ module OCT {
         }
 
         public abstract clone(): Geometry;
-        protected _blinker: Phaser.Sprite;
+        protected _blinker: Geometry;
+        protected _blinkerTween: Phaser.Tween;
 
         /** The shape this geometry belongs to */
         public shape: Shape = null;
@@ -37,7 +38,7 @@ module OCT {
 
 
         private _build() {
-            let graphics = this.game.add.graphics(0, 0);
+            let graphics = this.game.make.graphics(0, 0);
             graphics.beginFill(this.color, this.alphacolor);
             graphics.drawPolygon(this._shape(0, 0, this.size));
             graphics.endFill();
@@ -57,7 +58,10 @@ module OCT {
 
         public unblink() {
             if (this._blinker) {
+                console.log("unblink");
+                this.game.tweens.remove(this._blinkerTween);
                 this._blinker.destroy();
+                this._blinker = null;
             }
         }
 

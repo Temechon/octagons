@@ -46,6 +46,7 @@ module OCT {
                 this._picked = false;
                 this.highlight();
 
+                this.unblink();
                 this.updateTransform();
 
                 // Dont auto-align if the pointer is not on the grid
@@ -81,6 +82,15 @@ module OCT {
 
         public highlight() {
             this.outline.visible = !this.outline.visible;
+        }
+
+        public unblink() {
+            for (let oct of this.octagons) {
+                oct.unblink();
+            }
+            for (let d of this.diamonds) {
+                d.unblink();
+            }
         }
 
         public debug() {
