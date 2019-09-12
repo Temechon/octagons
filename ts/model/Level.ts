@@ -11,13 +11,17 @@ module OCT {
 
         }
 
-        public build() {
+        public build(nbShapes?: number) {
             this.grid = Grid.Build(this.game, this._options);
 
             this.grid.x = this.game.world.centerX;
             this.grid.y = this.grid.heightPx / 2 + 300 * ratio;
 
+            if (nbShapes) {
+                this._options.shapes = nbShapes;
+            }
             this.grid.buildShapes(this._options.shapes);
+
 
             this._updateShapePositions(this.grid);
 

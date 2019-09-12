@@ -3,15 +3,13 @@ module OCT {
 
     export class LevelManager {
 
-        private _levels: Array<Level> = [];
+        /** List of templates to be used in all difficulties*/
+        private _templates: Array<Level> = [];
 
         public currentLevel: number = 0;
 
-        private _difficulty: {
-            row: number,
-            col: number,
-            shapes: number
-        };
+        /** Number of shapes for each difficulty */
+        public static DIFFICULTY = [6, 11, 13];
 
         constructor(private game: Phaser.Game) {
 
@@ -23,46 +21,20 @@ module OCT {
 
             for (let levelStr of levels) {
                 // Get the first line of the level
-                let parts = Helpers.clean(levelStr);
+                let parts = JSON.parse(Helpers.clean(levelStr));
 
-                level = new Level(this.game, JSON.parse(parts));
+                level = new Level(this.game, parts);
 
-                this._levels.push(level);
-            }
-
-            this._difficulty = {
-                row: 3,
-                col: 3,
-                shapes: 20
+                this._templates.push(level);
             }
         }
 
         public nextLevel(): Level {
             let level: Level;
-
-            // Increase difficulty
-            this._difficulty.row = 7;
-            this._difficulty.col = 7;
-            this._difficulty.shapes = 9;
-            // TODO
-
-
-
-
-            level = new Level(this.game, this._difficulty)
-            level.build();
-
-            // level.grid.shapes[0].octagons[0].blink()
-
-            // level.grid.shapes[0].blink(level.grid.shapes[0].octagons[0]);
-
-
-            // if (this.currentLevel >= this._levels.length) {
-            //     level.build();
-            // } else {
-            //     level = this._levels[this.currentLevel];
-            //     level.build();
-            // }
+            // Get random template among difficulty
+            let difficulty = 1;
+            level = chance.pickone(this._templates);
+            level.build(LevelManager.DIFFICULTY[difficulty]);
             return level;
         }
     }
