@@ -31,10 +31,16 @@ module OCT {
 
         public nextLevel(): Level {
             let level: Level;
-            // Get random template among difficulty
-            let difficulty = 1;
-            level = chance.pickone(this._templates);
-            level.build(LevelManager.DIFFICULTY[difficulty]);
+            if (this.currentLevel === 0) {
+                // Display first level
+                level = new Level(this.game, { row: 3, col: 3, shapes: 3 });
+                level.build();
+            } else {
+                // Get random template among difficulty
+                let difficulty = 1;
+                level = chance.pickone(this._templates);
+                level.build(LevelManager.DIFFICULTY[difficulty]);
+            }
             return level;
         }
     }

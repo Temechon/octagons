@@ -44,6 +44,7 @@ module OCT {
         private _diamSize: number = 0;
 
         public size: number;
+        public lastColorMoved: number;
 
         constructor(
             game: Phaser.Game,

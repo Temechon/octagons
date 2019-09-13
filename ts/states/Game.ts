@@ -36,7 +36,17 @@ module OCT {
             this.currentLevel = this.lm.nextLevel();
 
             this.currentLevel.grid.onVictory = () => {
-                this._displayNextButton();
+
+                let i = 100;
+                let index = 1;
+                for (let shape of this.currentLevel.grid.shapes) {
+                    setTimeout(() => {
+                        shape.pop(this.currentLevel.grid.lastColorMoved);
+                    }, i * index++);
+                }
+                setTimeout(() => {
+                    this._displayNextButton();
+                }, 500);
             }
 
             if (this.lm.currentLevel === 0) {

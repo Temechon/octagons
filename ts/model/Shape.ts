@@ -15,6 +15,7 @@ module OCT {
         private outline: Phaser.Graphics;
         private smallOutline: Phaser.Graphics;
 
+
         constructor(game: Phaser.Game, public grid: Grid, public color: number) {
             super(game);
 
@@ -68,6 +69,7 @@ module OCT {
                     this.y += octa.worldPosition.y - shapeOcta.worldPosition.y;
                 }
 
+                this.grid.lastColorMoved = this.color;
                 this.grid.checkOverlap();
 
                 // Check if the game is won
@@ -76,6 +78,14 @@ module OCT {
                 }
 
             });
+        }
+
+        public pop(color: number) {
+
+            this.updateColor(color);
+            this.game.add.tween(this.scale).to({ x: 2, y: 2 }, 1000, Phaser.Easing.Circular.Out, true);
+            this.game.add.tween(this).to({ alpha: 0 }, 500, Phaser.Easing.Circular.Out, true);
+
         }
 
         private _countRowsCols() {
