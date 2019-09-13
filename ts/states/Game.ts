@@ -36,17 +36,7 @@ module OCT {
             this.currentLevel = this.lm.nextLevel();
 
             this.currentLevel.grid.onVictory = () => {
-
-                let i = 100;
-                let index = 1;
-                for (let shape of this.currentLevel.grid.shapes) {
-                    setTimeout(() => {
-                        shape.pop(this.currentLevel.grid.lastColorMoved);
-                    }, i * index++);
-                }
-                setTimeout(() => {
-                    this._displayNextButton();
-                }, 500);
+                this.goToNextLevel();
             }
 
             if (this.lm.currentLevel === 0) {
@@ -105,19 +95,32 @@ module OCT {
             buttonGroup.add(gameover);
 
             // Home button
-            let homebutton = new Button(this.game, { w: 400 * ratio, h: 100 * ratio }, 0xFF8984, "Next", 60)
-            homebutton.onInputDown = () => {
+            let nextButton = new Button(this.game, { w: 400 * ratio, h: 100 * ratio }, 0xFF8984, "Next", 60)
+            nextButton.onInputDown = () => {
                 buttonGroup.destroy();
                 this.currentLevel.destroy().then(() => {
                     this.lm.currentLevel++;
                     this.currentLevel = this.lm.nextLevel();
                     this.currentLevel.grid.onVictory = () => {
-                        this._displayNextButton();
+                        this.goToNextLevel();
                     }
                 })
             };
-            homebutton.setAt(this.game.width / 2, background.y + background.height - 50 * ratio);
-            buttonGroup.add(homebutton);
+            nextButton.setAt(this.game.width / 2, background.y + background.height - 50 * ratio);
+            buttonGroup.add(nextButton);
+        }
+
+        private goToNextLevel() {
+            let i = 100;
+            let index = 1;
+            for (let shape of this.currentLevel.grid.shapes) {
+                setTimeout(() => {
+                    shape.pop(this.currentLevel.grid.lastColorMoved);
+                }, i * index++);
+            }
+            setTimeout(() => {
+                this._displayNextButton();
+            }, 500);
         }
 
         private displayTutorial(level: Level) {

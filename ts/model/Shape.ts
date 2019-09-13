@@ -83,8 +83,10 @@ module OCT {
         public pop(color: number) {
 
             this.updateColor(color);
-            this.game.add.tween(this.scale).to({ x: 2, y: 2 }, 1000, Phaser.Easing.Circular.Out, true);
-            this.game.add.tween(this).to({ alpha: 0 }, 500, Phaser.Easing.Circular.Out, true);
+            setTimeout(() => {
+                this.game.add.tween(this.scale).to({ x: 2, y: 2 }, 1000, Phaser.Easing.Circular.Out, true);
+                this.game.add.tween(this).to({ alpha: 0 }, 500, Phaser.Easing.Circular.Out, true);
+            }, 750);
 
         }
 
@@ -204,6 +206,10 @@ module OCT {
 
         public updateColor(color: number) {
             this.color = color;
+
+            this.outline.clear();
+            this.smallOutline.clear();
+
             for (let oct of this.octagons) {
                 oct.updateColor(color);
             }
