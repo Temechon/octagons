@@ -38,7 +38,7 @@ module OCT {
             // graphics.drawPolygon(this._square(100, 100, s2));
             // graphics.endFill();
 
-            this.game.state.start('game');
+            this.game.state.start('editor');
 
         }
     }

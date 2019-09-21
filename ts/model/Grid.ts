@@ -163,16 +163,33 @@ module OCT {
          */
         public buildShapes(nbShapes: number) {
 
-            let colors = randomColor({
-                count: nbShapes,
-                luminosity: 'bright',
-                hue: 'random'
-            });
+            // let colors = randomColor({
+            //     count: nbShapes,
+            //     luminosity: 'dark',
+            //     hue: 'random'
+            // });
+
+            let colors = [
+                "#2C3E50",
+                "#455C7B",
+                "#6DBCDB",
+                "#685C79",
+                "#FC4349",
+                "#AC6C82",
+                "#DA727E",
+                "#DF5A49",
+                "#E27A3F",
+                "#FFBC67",
+                "#EFC94C",
+                "#45B29D",
+                "#00ADA7",
+                "#A0E0A9"
+            ]
 
             // To create shapes, get random octagon and expand it until there is no octagon left
             // First, create starting point of all shapes
             for (let i = 0; i < nbShapes; i++) {
-                this.shapes[i] = new Shape(this.game, this, Phaser.Color.hexToColor(colors[i]).color);
+                this.shapes[i] = new Shape(this.game, this, Phaser.Color.hexToColor(chance.pickone(colors)).color);
                 let n: Octagon = chance.pickone(chance.pickone(this.nonNullOctagons));
                 while (n.hasShape) {
                     n = chance.pickone(chance.pickone(this.nonNullOctagons));

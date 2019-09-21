@@ -7,8 +7,10 @@ module OCT {
         /** The level design */
         public grid: Grid;
 
-        constructor(private game: Phaser.Game, private _options: { row: number, col: number, shapes: number }) {
+        public difficulty: number = 0;
 
+        constructor(private game: Phaser.Game, private _options: { row: number, col: number, shapes?: number }) {
+            this.difficulty = _options.shapes;
         }
 
         public build(nbShapes?: number) {
@@ -18,6 +20,7 @@ module OCT {
             this.grid.y = this.grid.heightPx / 2 + 300 * ratio;
 
             if (nbShapes) {
+                this.difficulty = nbShapes;
                 this._options.shapes = nbShapes;
             }
             this.grid.buildShapes(this._options.shapes);

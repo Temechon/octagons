@@ -69,7 +69,6 @@ module OCT {
 
         public unblink() {
             if (this._blinker) {
-                console.log("unblink");
                 this.game.tweens.remove(this._blinkerTween);
                 this._blinker.destroy();
                 this._blinker = null;

@@ -21,11 +21,14 @@ module OCT {
 
             for (let levelStr of levels) {
                 // Get the first line of the level
-                let parts = JSON.parse(Helpers.clean(levelStr));
+                let firstline = Helpers.clean(levelStr);
+                if (firstline) {
+                    let parts = JSON.parse(firstline);
 
-                level = new Level(this.game, parts);
+                    level = new Level(this.game, parts);
 
-                this._templates.push(level);
+                    this._templates.push(level);
+                }
             }
         }
 
@@ -37,8 +40,13 @@ module OCT {
                 level.build();
             } else {
                 // Get random template among difficulty
-                let difficulty = 1;
-                level = chance.pickone(this._templates);
+                let difficulty = 0;
+                try {
+                    level = chance.pickone(this._templates);
+                } catch (e) {
+                    console.warn(e);
+                    level = new Level(this.game, { row: chance.integer({ min: 6, max: 9 }), col: chance.integer({ min: 6, max: 9 }) });
+                }
                 level.build(LevelManager.DIFFICULTY[difficulty]);
             }
             return level;

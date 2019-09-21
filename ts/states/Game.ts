@@ -118,9 +118,11 @@ module OCT {
                     shape.pop(this.currentLevel.grid.lastColorMoved);
                 }, i * index++);
             }
+            console.log(this.currentLevel.difficulty);
+
             setTimeout(() => {
                 this._displayNextButton();
-            }, 500);
+            }, 400 + 100 * this.currentLevel.difficulty);
         }
 
         private displayTutorial(level: Level) {

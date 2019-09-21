@@ -31,6 +31,7 @@ module OCT {
 
 
             this.smallOutline = this.game.add.graphics(0, 0);
+            this.smallOutline.visible = false;
             this.addChild(this.smallOutline);
 
             // Activate drag n drop
