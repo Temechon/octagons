@@ -1,7 +1,5 @@
 module OCT {
 
-    declare var randomColor;
-
     /**
      * A set of octagons and diamonds.
      * If N is the number of octagons on a line, n-1 is the number of square on the same line
@@ -174,22 +172,28 @@ module OCT {
                 "#455C7B",
                 "#6DBCDB",
                 "#685C79",
+                "#3498DB",
+
                 "#FC4349",
                 "#AC6C82",
                 "#DA727E",
                 "#DF5A49",
+
                 "#E27A3F",
                 "#FFBC67",
                 "#EFC94C",
+
                 "#45B29D",
                 "#00ADA7",
-                "#A0E0A9"
+                "#85DB18"
             ]
+
+            Helpers.shuffle(colors);
 
             // To create shapes, get random octagon and expand it until there is no octagon left
             // First, create starting point of all shapes
             for (let i = 0; i < nbShapes; i++) {
-                this.shapes[i] = new Shape(this.game, this, Phaser.Color.hexToColor(chance.pickone(colors)).color);
+                this.shapes[i] = new Shape(this.game, this, Phaser.Color.hexToColor(colors[i]).color);
                 let n: Octagon = chance.pickone(chance.pickone(this.nonNullOctagons));
                 while (n.hasShape) {
                     n = chance.pickone(chance.pickone(this.nonNullOctagons));
@@ -218,7 +222,7 @@ module OCT {
                     // Add this single octagon to a new shape
                     let oct = singles[0];
                     let clone = oct.clone() as Octagon;
-                    let s = new Shape(this.game, this, Phaser.Color.getRandomColor());
+                    let s = new Shape(this.game, this, Phaser.Color.hexToColor(chance.pickone(colors)).color);
                     this.shapes.push(s);
                     oct.shape = s;
                     s.addGeometry(clone);
@@ -261,10 +265,9 @@ module OCT {
 
         // Cmpute the best size for hexagons to fill the whole space
         private _computeBestSize() {
-            let availWidth = bounds.width;
-            let theoricalWidth = availWidth / this.col;
+            let theoricalWidth = bounds.width / this.col;
 
-            let theoricalHeight = bounds.height / 2 / this.row;
+            let theoricalHeight = (bounds.height - 400 * ratio) / this.row;
             let maxSize = Math.min(theoricalWidth, theoricalHeight);
 
             if (maxSize < 60) {

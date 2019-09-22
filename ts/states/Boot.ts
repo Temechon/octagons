@@ -38,8 +38,6 @@ module OCT {
 
         preload() {
 
-            this.game.stage.backgroundColor = "#000";
-
             // this.load.image('validate', 'assets/validate.png');
             // this.load.image('notcorrect', 'assets/notcorrect.png');
             // this.load.image('coin', 'assets/coin.png');
@@ -48,6 +46,9 @@ module OCT {
             this.load.image('button.medium', 'assets/medium.png');
             this.load.image('button.hard', 'assets/hard.png');
             this.load.image('button.hardest', 'assets/hardest.png');
+
+            this.load.image('logo', 'assets/logo.png');
+
             // this.load.image('button.puzzle', 'assets/puzzle.png');
             // this.load.image('button.back', 'assets/back.png');
             // Tutorial

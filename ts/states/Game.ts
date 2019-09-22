@@ -34,11 +34,20 @@ module OCT {
 
 
             // * Debug Bounds
-            // var graphics = this.game.add.graphics(0, 0);
-            // graphics.beginFill(0xFFFF0B);
+            var graphics = this.game.add.graphics(0, 0);
+            graphics.beginFill(0xFFFFff);
             // graphics.fillAlpha = 0.25;
-            // graphics.drawRect(bounds.x, bounds.y, bounds.width, bounds.height);
-            // graphics.endFill();
+            let deltax = 100 * ratio;
+            let deltay = 150 * ratio;
+            graphics.drawRoundedRect(deltax, deltay, this.game.width - deltax * 2, this.game.height - deltay * 2, 50 * ratio);
+            graphics.drawRoundedRect(this.game.world.centerX - 250 * ratio, deltay - 80 * ratio, 500 * ratio, 300 * ratio, 30 * ratio);
+            graphics.endFill();
+
+            let style = { font: Helpers.font(60, 'KeepCalm'), fill: "#E7E7E7", align: "center" };
+            let levelsDone = this.game.add.text(this.game.world.centerX, deltay - 80 * ratio, "OCTAGONS", style);
+            levelsDone.anchor.set(0.5, 0);
+
+
 
             this.lm = new LevelManager(this.game);
             this.currentLevel = this.lm.nextLevel();
@@ -89,15 +98,12 @@ module OCT {
             buttonGroup.add(background);
 
 
-            // SYMMETRY
-            let style = { font: Helpers.font(120, 'KeepCalm'), fill: "#E84A5F", align: "center" };
-            let title = this.game.add.text(this.game.width / 2, bounds.y + 200 * ratio, "OCTAGONS", style);
-            title.anchor.set(0.5);
-            title.setShadow(-4 * ratio, -4 * ratio, "#ffffff", 3 * ratio, true, true);
-            buttonGroup.add(title);
+            // logo
+            let logo = this.game.add.sprite(this.game.width / 2 + 25 * ratio, 300 * ratio, 'logo');
+            buttonGroup.add(logo);
 
             // Game over 
-            style = { font: Helpers.font(80, 'KeepCalm'), fill: "#ffffff", align: "center" };
+            let style = { font: Helpers.font(80, 'KeepCalm'), fill: "#ffffff", align: "center" };
             let gameover = this.game.add.text(this.game.width / 2, background.y + 1.5 * margin, "Awesome !", style);
             gameover.anchor.set(0.5, 0);
             buttonGroup.add(gameover);

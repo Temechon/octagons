@@ -17,7 +17,7 @@ module OCT {
             this.grid = Grid.Build(this.game, this._options);
 
             this.grid.x = this.game.world.centerX;
-            this.grid.y = this.grid.heightPx / 2 + 300 * ratio;
+            this.grid.y = this.game.world.centerY;
 
             if (nbShapes) {
                 this.difficulty = nbShapes;
@@ -39,37 +39,8 @@ module OCT {
         }
 
         private _updateShapePositions(grid: Grid) {
-            // for (let s of grid.shapes) {
 
-            //     // Get random position inside the game area
-            //     let pos = this._getRandomPos();
-
-            //     let cpos = new Phaser.Point(
-            //         s.center.x - s.x + pos.x,
-            //         s.center.y - s.y + pos.y
-            //     );
-
-            //     let correct = false;
-            //     let placementBounds = new Phaser.Rectangle(150, 150, this.game.width - s.widthPx - 150, this.game.height - s.heightPx - 150)
-
-            //     while (!correct) {
-            //         if (cpos.x - s.widthPx / 2 > placementBounds.x &&
-            //             cpos.x + s.widthPx / 2 < placementBounds.x + placementBounds.width &&
-            //             cpos.y - s.heightPx / 2 > placementBounds.y &&
-            //             cpos.y + s.heightPx / 2 < placementBounds.y + placementBounds.height
-            //         ) {
-            //             correct = true;
-            //             break;
-            //         }
-            //         pos = this._getRandomPos();
-            //         cpos = new Phaser.Point(
-            //             s.center.x - s.x + pos.x,
-            //             s.center.y - s.y + pos.y
-            //         );
-            //     }
-            //     s.setAt(pos.x, pos.y);
-            // }
-            const pack = new MaxRectsBinPack.MaxRectsBinPack(this.game.width, this.game.height / 2, false);
+            const pack = new MaxRectsBinPack.MaxRectsBinPack(this.game.height / 2, this.game.width, false);
             let rects = [];
             let g = this.grid;
             for (let s = 0; s < g.shapes.length; s++) {
@@ -85,15 +56,8 @@ module OCT {
 
             for (let obj of result) {
                 let index = parseInt(obj.id);
-                g.shapes[index].setAt(obj.x + this.game.width / 4, obj.y + this.game.height / 2);
+                g.shapes[index].setAt(obj.x + 300 * ratio, obj.y + this.game.height / 4);
             }
-        }
-
-        private _getRandomPos(): Phaser.Point {
-            let res = new Phaser.Point();
-            res.x = this.game.rnd.integerInRange(0, this.game.width);
-            res.y = this.game.rnd.integerInRange(0, this.game.height);
-            return res;
         }
 
         public destroy(): Promise<void> {
@@ -118,35 +82,6 @@ module OCT {
                     resolve();
                 });
             })
-        }
-
-        // public playAnimation(isWin: boolean): Promise<void> {
-        //     let checker: Checker;
-        //     let delay = 500;
-        //     if (isWin) {
-        //         checker = new Checker('validate');
-        //     } else {
-        //         checker = new Checker('notcorrect');
-        //         delay = 500;
-        //     }
-
-        //     return new Promise((resolve, reject) => {
-        //         checker.x = phasergame.width / 2;
-        //         checker.y = phasergame.height / 2;
-
-        //         checker.blinkAndGo(delay).then(() => {
-        //             resolve();
-        //         })
-        //     });
-        // }
-
-
-        /**
-         * Returns the score for this level, according to its difficulty and the time to resolve it
-         */
-        public getScore(): number {
-            // todo
-            return 0;
         }
     }
 }

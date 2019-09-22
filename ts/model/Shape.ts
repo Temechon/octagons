@@ -39,8 +39,9 @@ module OCT {
 
             this.onChildInputDown.add((children: Phaser.Sprite, pi: Phaser.Pointer) => {
                 this._picked = true;
-                this.dragStartCoords.x = pi.x - this.x;
-                this.dragStartCoords.y = pi.y - this.y;
+
+                this.dragStartCoords.x = this.game.input.x - this.x;
+                this.dragStartCoords.y = this.game.input.y - this.y;
                 this.game.world.bringToTop(this);
                 this.highlight();
             });
@@ -161,8 +162,8 @@ module OCT {
 
         public move(pi: Phaser.Pointer) {
             if (this._picked) {
-                this.x = pi.clientX - this.dragStartCoords.x;
-                this.y = pi.clientY - this.dragStartCoords.y;
+                this.x = this.game.input.x - this.dragStartCoords.x;
+                this.y = this.game.input.y - this.dragStartCoords.y;
             }
         }
 
