@@ -33,7 +33,7 @@ module OCT {
             easyButton.x = this.game.width / 2;
             easyButton.y = this.game.height / 2 - 150 * ratio;
             easyButton.onInputDown = () => {
-                this.game.state.start('game');
+                this.game.state.start('game', true, false, { difficulty: 0 });
             };
 
             // Puzzle
@@ -42,7 +42,7 @@ module OCT {
             mediumButton.x = this.game.width / 2;
             mediumButton.y = easyButton.y + 200 * ratio;
             mediumButton.onInputDown = () => {
-                this.game.state.start('game', true, false, {});
+                this.game.state.start('game', true, false, { difficulty: 1 });
             };
 
             color = Phaser.Color.hexToColor(colors[2]).color
@@ -50,7 +50,7 @@ module OCT {
             hardbutton.x = this.game.width / 2;
             hardbutton.y = mediumButton.y + 200 * ratio;
             hardbutton.onInputDown = () => {
-                this.game.state.start('game', true, false, {});
+                this.game.state.start('game', true, false, { difficulty: 2 });
             };
 
             color = Phaser.Color.hexToColor(colors[3]).color
@@ -58,7 +58,7 @@ module OCT {
             hardestbutton.x = this.game.width / 2;
             hardestbutton.y = hardbutton.y + 200 * ratio;
             hardestbutton.onInputDown = () => {
-                this.game.state.start('game', true, false, {});
+                this.game.state.start('game', true, false, { difficulty: 3 });
             };
 
 

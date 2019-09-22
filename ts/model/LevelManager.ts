@@ -6,10 +6,9 @@ module OCT {
         /** List of templates to be used in all difficulties*/
         private _templates: Array<Level> = [];
 
-        public currentLevel: number = 0;
 
         /** Number of shapes for each difficulty */
-        public static DIFFICULTY = [6, 11, 13];
+        public static DIFFICULTY = [8, 11, 12, 14];
 
         constructor(private game: Phaser.Game) {
 
@@ -34,20 +33,20 @@ module OCT {
 
         public nextLevel(): Level {
             let level: Level;
-            if (this.currentLevel === 0) {
+            console.log(Game.INSTANCE.currentLevelNb)
+            if (Game.INSTANCE.currentLevelNb === 0) {
                 // Display first level
                 level = new Level(this.game, { row: 3, col: 3, shapes: 3 });
                 level.build();
             } else {
                 // Get random template among difficulty
-                let difficulty = 0;
                 try {
                     level = chance.pickone(this._templates);
                 } catch (e) {
                     console.warn(e);
                     level = new Level(this.game, { row: chance.integer({ min: 6, max: 9 }), col: chance.integer({ min: 6, max: 9 }) });
                 }
-                level.build(LevelManager.DIFFICULTY[difficulty]);
+                level.build(LevelManager.DIFFICULTY[Game.INSTANCE.difficulty]);
             }
             return level;
         }

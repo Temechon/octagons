@@ -6,10 +6,12 @@ module OCT {
     export class Game extends Phaser.State {
 
         public static INSTANCE: Game;
+        public static TUTORIAL_DONE: string = "octagon.tutorial.done";
         public static _toKill = [];
         private lm: LevelManager;
         private currentLevel: Level;
         public difficulty: number = 0;
+        public currentLevelNb: number = 0;
 
         constructor() {
             super();
@@ -45,7 +47,7 @@ module OCT {
                 this.goToNextLevel();
             }
 
-            if (this.lm.currentLevel === 0) {
+            if (this.currentLevelNb === 0) {
                 // Display tutorial
                 this.displayTutorial(this.currentLevel).then(() => {
                     this.destroyTutorial()
@@ -105,13 +107,14 @@ module OCT {
             nextButton.onInputDown = () => {
                 buttonGroup.destroy();
                 this.currentLevel.destroy().then(() => {
-                    if (this.lm.currentLevel == 0) {
-                        this.lm.currentLevel++;
+                    if (this.currentLevelNb == 0) {
+                        this.currentLevelNb++;
+                        localStorage.setItem(Game.TUTORIAL_DONE, "ok")
                         // Forward to home page
                         this.game.state.start('home');
                         return;
                     } else {
-                        this.lm.currentLevel++;
+                        this.currentLevelNb++;
                         this.currentLevel = this.lm.nextLevel();
                         this.currentLevel.grid.onVictory = () => {
                             this.goToNextLevel();

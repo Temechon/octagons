@@ -88,14 +88,21 @@ module OCT {
             console.log('Window - ', window.innerWidth * devicePixelRatio, window.innerHeight * devicePixelRatio);
             console.log('ratio - ', ratio);
 
+            // Get tutorial value in local storage
+            let tutorialDone = localStorage.getItem(Game.TUTORIAL_DONE);
+            let nextStage = tutorialDone ? "home" : "game";
+            if (nextStage === 'home') {
+                Game.INSTANCE.currentLevelNb = 1;
+            }
+
             try {
                 kongregateAPI.loadAPI(() => {
                     kongregate = window['kongregate'] = kongregateAPI.getAPI();
-                    this.game.state.start('game');
+                    this.game.state.start(nextStage);
                 });
             } catch (e) {
                 console.error(e);
-                this.game.state.start('game');
+                this.game.state.start(nextStage);
             }
 
         }
