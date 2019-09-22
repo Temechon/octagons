@@ -44,10 +44,10 @@ module OCT {
             // this.load.image('notcorrect', 'assets/notcorrect.png');
             // this.load.image('coin', 'assets/coin.png');
             // // Buttons
-            // this.load.image('button.reset', 'assets/reset.png');
-            // this.load.image('button.skip', 'assets/skip.png');
-            // this.load.image('button.video', 'assets/video.png');
-            // this.load.image('button.pause', 'assets/pause.png');
+            this.load.image('button.easy', 'assets/easy.png');
+            this.load.image('button.medium', 'assets/medium.png');
+            this.load.image('button.hard', 'assets/hard.png');
+            this.load.image('button.hardest', 'assets/hardest.png');
             // this.load.image('button.puzzle', 'assets/puzzle.png');
             // this.load.image('button.back', 'assets/back.png');
             // Tutorial
@@ -58,6 +58,7 @@ module OCT {
         }
 
         create() {
+            this.game.stage.backgroundColor = '#F2F2F2';
 
             this.game.add = new ScalingGameObjectFactory(this.game);
 
@@ -90,11 +91,11 @@ module OCT {
             try {
                 kongregateAPI.loadAPI(() => {
                     kongregate = window['kongregate'] = kongregateAPI.getAPI();
-                    this.game.state.start('home');
+                    this.game.state.start('game');
                 });
             } catch (e) {
                 console.error(e);
-                this.game.state.start('home');
+                this.game.state.start('game');
             }
 
         }

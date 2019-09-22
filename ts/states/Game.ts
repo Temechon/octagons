@@ -9,6 +9,7 @@ module OCT {
         public static _toKill = [];
         private lm: LevelManager;
         private currentLevel: Level;
+        public difficulty: number = 0;
 
         constructor() {
             super();
@@ -17,8 +18,13 @@ module OCT {
         }
 
         public init(params: {
-            levelNumber?: number
+            difficulty?: number
         }) {
+            if (params) {
+                this.difficulty = params.difficulty;
+            } else {
+                this.difficulty = 0;
+            }
 
         }
 
@@ -99,10 +105,17 @@ module OCT {
             nextButton.onInputDown = () => {
                 buttonGroup.destroy();
                 this.currentLevel.destroy().then(() => {
-                    this.lm.currentLevel++;
-                    this.currentLevel = this.lm.nextLevel();
-                    this.currentLevel.grid.onVictory = () => {
-                        this.goToNextLevel();
+                    if (this.lm.currentLevel == 0) {
+                        this.lm.currentLevel++;
+                        // Forward to home page
+                        this.game.state.start('home');
+                        return;
+                    } else {
+                        this.lm.currentLevel++;
+                        this.currentLevel = this.lm.nextLevel();
+                        this.currentLevel.grid.onVictory = () => {
+                            this.goToNextLevel();
+                        }
                     }
                 })
             };
