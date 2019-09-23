@@ -40,13 +40,26 @@ module OCT {
             let deltax = 100 * ratio;
             let deltay = 150 * ratio;
             graphics.drawRoundedRect(deltax, deltay, this.game.width - deltax * 2, this.game.height - deltay * 2, 50 * ratio);
-            graphics.drawRoundedRect(this.game.world.centerX - 250 * ratio, deltay - 80 * ratio, 500 * ratio, 300 * ratio, 30 * ratio);
+            graphics.drawRoundedRect(this.game.world.centerX - 250 * ratio, deltay - 100 * ratio, 500 * ratio, 300 * ratio, 30 * ratio);
             graphics.endFill();
 
             let style = { font: Helpers.font(60, 'KeepCalm'), fill: "#E7E7E7", align: "center" };
             let levelsDone = this.game.add.text(this.game.world.centerX, deltay - 80 * ratio, "OCTAGONS", style);
             levelsDone.anchor.set(0.5, 0);
 
+            // Back button
+            let backButton = this.game.add.sprite(150 * ratio, 80 * ratio, 'button.back');
+            backButton.inputEnabled = true;
+            backButton.events.onInputDown.add(() => {
+                backButton.scale.multiply(0.85, 0.85);
+            });
+
+            backButton.events.onInputUp.add(() => {
+                backButton.scale.set(ratio, ratio);
+                this.game.time.events.add(100, () => {
+                    this.game.state.start('home');
+                });
+            });
 
 
             this.lm = new LevelManager(this.game);
