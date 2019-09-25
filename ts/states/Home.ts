@@ -70,39 +70,20 @@ module OCT {
                 this.game.state.start('game', true, false, { difficulty: 3 });
             };
 
-            style.fill = "#BABABA";
-            style.font = Helpers.font(40, 'KeepCalm')
-            let bestTime = this.game.add.text(this.game.width / 2, hardestbutton.y + hardestbutton.height / 2 + 150 * ratio, "Best time", style);
-            bestTime.anchor.set(0.5);
 
-            style.fill = "#A1A1A1";
-            style.font = Helpers.font(40, 'KeepCalm');
-            let easy = this.game.add.text(this.game.world.centerX - 450 * ratio, bestTime.y + bestTime.height / 2 + 40 * ratio, "Easy", style);
-            easy.anchor.set(0.5);
-            let medium = this.game.add.text(this.game.world.centerX - 150 * ratio, easy.y, "Medium", style);
-            medium.anchor.set(0.5);
-            let hard = this.game.add.text(this.game.world.centerX + 150 * ratio, easy.y, "Hard", style);
-            hard.anchor.set(0.5);
-            let hardest = this.game.add.text(this.game.world.centerX + 450 * ratio, easy.y, "Hardest", style);
-            hardest.anchor.set(0.5);
+            // Back button
+            let lbButton = this.game.add.sprite(this.game.world.centerX, this.game.height - 200 * ratio, 'button.leaderboard');
+            lbButton.inputEnabled = true;
+            lbButton.events.onInputDown.add(() => {
+                lbButton.scale.multiply(0.85, 0.85);
+            });
 
-            style.font = Helpers.font(50, 'KeepCalm');
-            style.fill = "#FFBC67";
-            let easyTime = this.game.add.text(this.game.world.centerX - 450 * ratio, easy.y + 70 * ratio, "00:00", style);
-            easyTime.anchor.set(0.5);
-            style.fill = "#6DBCDB"
-            let mediumTime = this.game.add.text(this.game.world.centerX - 150 * ratio, easyTime.y, "00:00", style);
-            mediumTime.anchor.set(0.5);
-            style.fill = "#FC4349"
-            let hardTime = this.game.add.text(this.game.world.centerX + 150 * ratio, easyTime.y, "00:00", style);
-            hardTime.anchor.set(0.5);
-            style.fill = "#2C3E50"
-            let hardestTime = this.game.add.text(this.game.world.centerX + 450 * ratio, easyTime.y, "00:00", style);
-            hardestTime.anchor.set(0.5);
-
-
-
-
+            lbButton.events.onInputUp.add(() => {
+                lbButton.scale.set(ratio, ratio);
+                this.game.time.events.add(100, () => {
+                    this.game.state.start('leaderboard');
+                });
+            });
 
         }
     }

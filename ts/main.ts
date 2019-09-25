@@ -23,6 +23,7 @@ var app = {
         game.state.add('home', OCT.Home);
         game.state.add('game', OCT.Game);
         game.state.add('editor', OCT.Editor);
+        game.state.add('leaderboard', OCT.Leaderboard);
 
         game.state.start('boot');
     }

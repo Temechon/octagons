@@ -78,9 +78,11 @@ module OCT {
             this._top.beginFill(this.backgroundColor);
             this._top.drawRoundedRect(-this.size.w / 2, -this.size.h / 2, this.size.w, this.size.h, 20 * ratio);
 
-            this._top.beginFill(lighter);
-            this._top.drawRoundedRect(-this.size.w / 2, -this.size.h / 2, this.size.h, this.size.h, 20 * ratio);
-            this._top.endFill();
+            if (this.iconKey) {
+                this._top.beginFill(lighter);
+                this._top.drawRoundedRect(-this.size.w / 2, -this.size.h / 2, this.size.h, this.size.h, 20 * ratio);
+                this._top.endFill();
+            }
 
             // * Shadow 
             let darker = Helpers.shadeBlendConvert(this.backgroundColor, -0.4);
@@ -93,7 +95,9 @@ module OCT {
             let style = { font: Helpers.font(this.fontSize, 'KeepCalm'), fill: "#fff", align: "center" };
             let labelText = this.game.add.text(0, 5 * ratio, this.label, style);
             labelText.anchor.set(0.5, 0.5);
-            labelText.x = -this.width / 2 + this.size.h + size;
+            if (this.iconKey) {
+                labelText.x = -this.width / 2 + this.size.h + size;
+            }
             labelText.name = "coinsText";
             this._text = labelText;
             this.addChild(labelText);

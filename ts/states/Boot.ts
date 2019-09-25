@@ -47,8 +47,10 @@ module OCT {
             this.load.image('button.hard', 'assets/hard.png');
             this.load.image('button.hardest', 'assets/hardest.png');
             this.load.image('button.back', 'assets/back.png');
+            this.load.image('button.leaderboard', 'assets/leaderboard.png');
 
             this.load.image('logo', 'assets/logo.png');
+            this.load.image('cup', 'assets/cup.png');
 
             // this.load.image('button.puzzle', 'assets/puzzle.png');
             // this.load.image('button.back', 'assets/back.png');
