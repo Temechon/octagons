@@ -27,7 +27,8 @@ module OCT {
                 "#2C3E50"
             ]
 
-            let width = 900;
+            let width = 800 * ratio;
+            let height = 200 * ratio;
             let y = cup.y + 400 * ratio;
 
             // EASY
@@ -48,7 +49,7 @@ module OCT {
                     color = colors[0];
                 }
 
-                let backEasy = this.createBackground(color, width, 200, "Easy", "button.easy", dateText, durationText);
+                let backEasy = this.createBackground(color, width, height, "Easy", "button.easy", dateText, durationText);
                 backEasy.x = this.game.world.centerX;
                 backEasy.y = y;
             }
@@ -72,7 +73,7 @@ module OCT {
                     color = colors[1];
                 }
 
-                let backMedium = this.createBackground(color, width, 200, "Medium", "button.medium", dateText, durationText);
+                let backMedium = this.createBackground(color, width, height, "Medium", "button.medium", dateText, durationText);
                 backMedium.x = this.game.world.centerX;
                 backMedium.y = y;
             }
@@ -96,7 +97,7 @@ module OCT {
                     color = colors[2];
                 }
 
-                let backMedium = this.createBackground(color, width, 200, "Hard", "button.hard", dateText, durationText);
+                let backMedium = this.createBackground(color, width, height, "Hard", "button.hard", dateText, durationText);
                 backMedium.x = this.game.world.centerX;
                 backMedium.y = y;
             }
@@ -120,7 +121,7 @@ module OCT {
                     color = colors[3];
                 }
 
-                let backMedium = this.createBackground(color, width, 200, "Hardest", "button.hardest", dateText, durationText);
+                let backMedium = this.createBackground(color, width, height, "Hardest", "button.hardest", dateText, durationText);
                 backMedium.x = this.game.world.centerX;
                 backMedium.y = y;
             }
@@ -148,19 +149,23 @@ module OCT {
             let lighter: string = Helpers.shadeBlendConvert(colorAsNumber, 0.2, true) as string;
             let lighter2: string = Helpers.shadeBlendConvert(colorAsNumber, 0.7, true) as string;
 
-            var myBitmap: Phaser.BitmapData = this.game.add.bitmapData(width, height);
-            let grd = myBitmap.context.createLinearGradient(0, height / 2, width, height / 2);
+
+            let w = width / ratio;
+            let h = height / ratio;
+
+            var myBitmap: Phaser.BitmapData = this.game.add.bitmapData(w, h);
+            let grd = myBitmap.context.createLinearGradient(0, h / 2, w, h / 2);
             grd.addColorStop(0, lighter);
             grd.addColorStop(1, color);
             myBitmap.context.fillStyle = grd;
-            myBitmap.context.fillRect(0, 0, width, height);
+            myBitmap.context.fillRect(0, 0, w, h);
 
-            let myMask = this.game.add.graphics();
+            let myMask = this.game.add.graphics(0, 0);
             myMask.beginFill(0x000);
-            let maskW = (width) / 2 * 1 / ratio;
-            let maskH = (height) / 2 * 1 / ratio;
+            let maskW = w / 2;
+            let maskH = h / 2;
 
-            myMask.drawRoundedRect(-maskW / 2, -maskH / 2, maskW, maskH, 30 * ratio); // draw a rounded rect mask
+            myMask.drawRoundedRect(-maskW, -maskH, w, h, 30 * ratio)
             myMask.endFill();
 
             let sprite = this.game.add.sprite(0, 0, myBitmap);
@@ -168,37 +173,35 @@ module OCT {
             sprite.mask = myMask;
 
             // Difficulty
-            let yposition = -height / 2 + 160 * ratio;
+            let yposition = -h / 2 + 80;
             if (!date) {
                 yposition = 0;
             }
             let style = { font: Helpers.font(50 * 1 / ratio, 'KeepCalm'), fill: "#fff", align: "center" };
-            let textText = this.game.add.text(-width / 2 + 400 * ratio, yposition, text, style);
+            let textText = this.game.add.text(-w / 2 + 220, yposition, text, style);
             textText.anchor.set(0, 0.5);
             sprite.addChild(textText);
 
-            let icon = this.game.add.sprite(-width / 2, 0, iconKey);
-            icon.anchor.set(-0.5, 0.5);
+            let icon = this.game.add.sprite(-w / 2, 0, iconKey);
+            icon.scale.set(0.7, 0.7);
+            icon.anchor.set(-0.25, 0.5);
             icon.alpha = 0.5;
             sprite.addChild(icon);
 
             // Time
             style = { font: Helpers.font(65 * 1 / ratio, 'KeepCalm'), fill: "#fff", align: "center" };
-            let timeText = this.game.add.text(200 * ratio, 0, time, style);
+            let timeText = this.game.add.text(75, 0, time, style);
             timeText.anchor.set(0, 0.5);
             sprite.addChild(timeText);
 
             // Date
-            style = { font: Helpers.font(25 * 1 / ratio, 'KeepCalm'), fill: lighter2, align: "center" };
-            let dateText = this.game.add.text(-width / 2 + 400 * ratio, 70 * ratio, date, style);
+            style = { font: Helpers.font(30 * 1 / ratio, 'KeepCalm'), fill: lighter2, align: "center" };
+            let dateText = this.game.add.text(-w / 2 + 220, 35, date, style);
             dateText.anchor.set(0, 0.5);
             sprite.addChild(dateText);
 
 
             return sprite;
         }
-
-        // this.game.add.tween(sprite).to({ x: 800, y: 800 }, 2500, null, true);
-
     }
 }

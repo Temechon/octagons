@@ -187,14 +187,14 @@ module OCT {
             if (geo instanceof Octagon) {
                 this.octagons.push(geo as Octagon);
                 // Draw on outline
-                geo.drawOn(this.outline, 1.2, Helpers.shadeBlendConvert(this.color, -0.4));
-                geo.drawOn(this.smallOutline, 1.05, Helpers.shadeBlendConvert(this.color, -0.1));
+                geo.drawOn(this.outline, 1.2, Helpers.shadeBlendConvert(this.color, -0.4) as number);
+                geo.drawOn(this.smallOutline, 1.05, Helpers.shadeBlendConvert(this.color, -0.1) as number);
             }
             if (geo instanceof Diamond) {
                 this.diamonds.push(geo as Diamond);
                 // Draw on outline
-                geo.drawOn(this.outline, 1.5, Helpers.shadeBlendConvert(this.color, -0.4));
-                geo.drawOn(this.smallOutline, 1.1, Helpers.shadeBlendConvert(this.color, -0.1));
+                geo.drawOn(this.outline, 1.5, Helpers.shadeBlendConvert(this.color, -0.4) as number);
+                geo.drawOn(this.smallOutline, 1.1, Helpers.shadeBlendConvert(this.color, -0.1) as number);
             }
 
             this._countRowsCols();
