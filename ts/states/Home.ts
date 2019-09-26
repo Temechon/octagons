@@ -5,6 +5,8 @@ module OCT {
 
         create() {
 
+            APIHelper.sendStat('initalized', 1);
+
             this.game.stage.backgroundColor = '#F2F2F2';
 
             // * Debug Bounds

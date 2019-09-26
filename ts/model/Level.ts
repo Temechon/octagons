@@ -17,7 +17,7 @@ module OCT {
             this.grid = Grid.Build(this.game, this._options);
 
             this.grid.x = this.game.world.centerX;
-            this.grid.y = this.game.world.centerY;
+            this.grid.y = this.grid.heightPx / 2 + 250 * ratio;
 
             if (nbShapes) {
                 this.difficulty = nbShapes;
@@ -40,7 +40,7 @@ module OCT {
 
         private _updateShapePositions() {
 
-            const pack = new MaxRectsBinPack.MaxRectsBinPack(this.game.width - 300 * ratio, this.game.height - 300 * ratio, false);
+            const pack = new MaxRectsBinPack.MaxRectsBinPack(this.game.width - 300 * ratio, this.game.height / 2, false);
             let rects = [];
             let g = this.grid;
             for (let s = 0; s < g.shapes.length; s++) {
@@ -52,11 +52,11 @@ module OCT {
                 });
             }
 
-            const result = pack.insert2(rects, MaxRectsBinPack.BottomLeftRule)
+            const result = pack.insert2(rects, MaxRectsBinPack.BestAreaFit)
 
             for (let obj of result) {
                 let index = parseInt(obj.id);
-                g.shapes[index].setAt(obj.x + 150 * ratio, obj.y + 300 * ratio);
+                g.shapes[index].setAt(obj.x + 150 * ratio, obj.y + this.grid.y);
 
             }
         }

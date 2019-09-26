@@ -265,9 +265,9 @@ module OCT {
 
         // Cmpute the best size for hexagons to fill the whole space
         private _computeBestSize() {
-            let theoricalWidth = bounds.width / this.col;
+            let theoricalWidth = (bounds.width - 150 * ratio) / this.col;
 
-            let theoricalHeight = (bounds.height - 400 * ratio) / this.row;
+            let theoricalHeight = (bounds.height / 2) / this.row;
             let maxSize = Math.min(theoricalWidth, theoricalHeight);
 
             if (maxSize < 60) {

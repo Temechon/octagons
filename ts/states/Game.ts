@@ -45,6 +45,7 @@ module OCT {
 
         create() {
 
+            APIHelper.sendStat('initalized', 1);
 
             // * Debug Bounds
             var graphics = this.game.add.graphics(0, 0);
