@@ -119,7 +119,7 @@ module OCT {
 
 
             // Draw shadow if needed
-            let color = Helpers.shadeBlendConvert(this.backgroundColor, -0.4);
+            let color = Helpers.shadeBlendConvert(this.backgroundColor, -0.4) as number;
             this.beginFill(color, 1);
             this.drawRoundedRect(-this.size.w / 2 - this._offset, -this.size.h / 2 - this._offset, this.size.w, this.size.h, 20 * ratio);
             this.endFill();

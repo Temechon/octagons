@@ -94,7 +94,7 @@ module OCT {
 
             // Get tutorial value in local storage
             let tutorialDone = localStorage.getItem(Game.TUTORIAL_DONE);
-            let nextStage = tutorialDone ? "leaderboard" : "game";
+            let nextStage = tutorialDone ? "home" : "game";
             if (nextStage === 'home') {
                 Game.INSTANCE.currentLevelNb = 1;
             }

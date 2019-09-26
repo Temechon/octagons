@@ -115,6 +115,8 @@ module OCT {
             let gcenter = this.game.add.graphics(0, 0);
             gcenter.beginFill(0xFF0000);
             gcenter.drawCircle(this.center.x, this.center.y, 15);
+            gcenter.beginFill(0x00ff00);
+            gcenter.drawCircle(0, 0, 15);
             gcenter.endFill();
             this.addChild(gcenter);
             this.bringToTop(gcenter);
@@ -145,11 +147,12 @@ module OCT {
         }
 
         /**
-         * Set the shape to the given x/y coordinates
+         * Set the shape to the given x/y coordinates (top left of the shape)
          */
         public setAt(x: number, y: number) {
-            this.x = x - this.center.x;
-            this.y = y - this.center.y;
+
+            this.x = this.x + x - this.center.x + this.widthPx / 2;
+            this.y = this.y + y - this.center.y + this.heightPx / 2;
         }
 
         public get widthPx(): number {

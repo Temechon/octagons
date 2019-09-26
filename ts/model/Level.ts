@@ -26,7 +26,7 @@ module OCT {
             this.grid.buildShapes(this._options.shapes);
 
 
-            this._updateShapePositions(this.grid);
+            this._updateShapePositions();
 
             this.game.input.addMoveCallback(this._moveShape.bind(this), this);
 
@@ -38,9 +38,9 @@ module OCT {
             }
         }
 
-        private _updateShapePositions(grid: Grid) {
+        private _updateShapePositions() {
 
-            const pack = new MaxRectsBinPack.MaxRectsBinPack(this.game.height / 2, this.game.width, false);
+            const pack = new MaxRectsBinPack.MaxRectsBinPack(this.game.width - 300 * ratio, this.game.height - 300 * ratio, false);
             let rects = [];
             let g = this.grid;
             for (let s = 0; s < g.shapes.length; s++) {
@@ -52,11 +52,12 @@ module OCT {
                 });
             }
 
-            const result = pack.insert2(rects, MaxRectsBinPack.BestShortSideFit)
+            const result = pack.insert2(rects, MaxRectsBinPack.BottomLeftRule)
 
             for (let obj of result) {
                 let index = parseInt(obj.id);
-                g.shapes[index].setAt(obj.x + 300 * ratio, obj.y + this.game.height / 4);
+                g.shapes[index].setAt(obj.x + 150 * ratio, obj.y + 300 * ratio);
+
             }
         }
 
