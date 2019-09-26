@@ -24,9 +24,10 @@ module OCT {
             levelsDone.anchor.set(0.5);
 
             // Number of levels
+            let numberOfLevels = localStorage.getItem(Game.NUMBER_OF_GAMES) || 0;
             style.fill = "#A1A1A1";
             style.font = Helpers.font(75, 'KeepCalm')
-            levelsDone = this.game.add.text(this.game.width / 2, levelsDone.y + levelsDone.height / 2 + 50 * ratio, "99", style);
+            levelsDone = this.game.add.text(this.game.width / 2, levelsDone.y + levelsDone.height / 2 + 50 * ratio, numberOfLevels.toString(), style);
             levelsDone.anchor.set(0.5);
 
             let colors = [

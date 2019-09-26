@@ -33,7 +33,6 @@ module OCT {
 
         public nextLevel(): Level {
             let level: Level;
-            console.log(Game.INSTANCE.currentLevelNb)
             if (Game.INSTANCE.currentLevelNb === 0) {
                 // Display first level
                 level = new Level(this.game, { row: 3, col: 3, shapes: 3 });

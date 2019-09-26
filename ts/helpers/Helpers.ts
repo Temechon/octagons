@@ -32,7 +32,7 @@ module OCT {
             }
         }
 
-        public static shadeBlendConvert(color: number, percent: number): number {
+        public static shadeBlendConvert(color: number, percent: number, toHexa: boolean = false): number | string {
             let colorHex: string = color.toString(16);
             if (colorHex.length > 6) {
                 colorHex = "#" + colorHex.slice(1);
@@ -42,8 +42,12 @@ module OCT {
             colorHex = Helpers.padEnd(colorHex, 7, '0');
 
             let resHex = Helpers._shadeBlendConvert(percent, colorHex);
-            let res = parseInt(resHex.slice(1), 16);
-            return res;
+            if (toHexa) {
+                return resHex;
+            } else {
+                let res = parseInt(resHex.slice(1), 16);
+                return res;
+            }
         }
 
         /**

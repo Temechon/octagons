@@ -79,13 +79,13 @@ module OCT {
             this._top.drawRoundedRect(-this.size.w / 2, -this.size.h / 2, this.size.w, this.size.h, 20 * ratio);
 
             if (this.iconKey) {
-                this._top.beginFill(lighter);
+                this._top.beginFill(lighter as number);
                 this._top.drawRoundedRect(-this.size.w / 2, -this.size.h / 2, this.size.h, this.size.h, 20 * ratio);
                 this._top.endFill();
             }
 
             // * Shadow 
-            let darker = Helpers.shadeBlendConvert(this.backgroundColor, -0.4);
+            let darker = Helpers.shadeBlendConvert(this.backgroundColor, -0.4) as number;
             this.beginFill(darker, 1);
             this.drawRoundedRect(-this.size.w / 2, -this.size.h / 2 + 20 * ratio, this.size.w, this.size.h, 20 * ratio);
             this.endFill();

@@ -3,15 +3,28 @@ module OCT {
     export var chance;
     declare var Chance;
 
+    declare var moment;
+
     export class Game extends Phaser.State {
 
         public static INSTANCE: Game;
         public static TUTORIAL_DONE: string = "octagon.tutorial.done";
+        /** Stored in local storage : {date:Date, time:duration in ms} */
+        public static LB_KEYS = [
+            "octagon.lb.easy.best",
+            "octagon.lb.medium.best",
+            "octagon.lb.hard.best",
+            "octagon.lb.hardest.best"
+        ];
+        public static NUMBER_OF_GAMES = "octagon.number.games";
+
         public static _toKill = [];
         private lm: LevelManager;
         private currentLevel: Level;
         public difficulty: number = 0;
         public currentLevelNb: number = 0;
+
+        public startedDate: Date;
 
         constructor() {
             super();
@@ -48,22 +61,26 @@ module OCT {
             levelsDone.anchor.set(0.5, 0);
 
             // Back button
-            let backButton = this.game.add.sprite(150 * ratio, 80 * ratio, 'button.back');
-            backButton.inputEnabled = true;
-            backButton.events.onInputDown.add(() => {
-                backButton.scale.multiply(0.85, 0.85);
-            });
-
-            backButton.events.onInputUp.add(() => {
-                backButton.scale.set(ratio, ratio);
-                this.game.time.events.add(100, () => {
-                    this.game.state.start('home');
+            let tutoDone = localStorage.getItem(Game.TUTORIAL_DONE);
+            if (tutoDone) {
+                let backButton = this.game.add.sprite(150 * ratio, 80 * ratio, 'button.back');
+                backButton.inputEnabled = true;
+                backButton.events.onInputDown.add(() => {
+                    backButton.scale.multiply(0.85, 0.85);
                 });
-            });
 
+                backButton.events.onInputUp.add(() => {
+                    backButton.scale.set(ratio, ratio);
+                    this.game.time.events.add(100, () => {
+                        this.game.state.start('home');
+                    });
+                });
+            }
 
             this.lm = new LevelManager(this.game);
             this.currentLevel = this.lm.nextLevel();
+
+            this.startedDate = new Date();
 
             this.currentLevel.grid.onVictory = () => {
                 this.goToNextLevel();
@@ -146,6 +163,36 @@ module OCT {
         }
 
         private goToNextLevel() {
+            let now = new Date();
+            let elapsedTime = now.getTime() - this.startedDate.getTime();
+
+            if (localStorage.getItem(Game.TUTORIAL_DONE)) {
+
+                // Increment number of levels done
+                let numberOfGames = (parseInt(localStorage.getItem(Game.NUMBER_OF_GAMES)) || 0) + 1
+                localStorage.setItem(Game.NUMBER_OF_GAMES, numberOfGames.toString());
+
+                // Save date 
+                let best = JSON.parse(localStorage.getItem(Game.LB_KEYS[this.difficulty]));
+                if (best) {
+                    // check if elapsed time is better than the stored one
+                    if (elapsedTime < best.time) {
+                        // save it in local storage
+                        best = {
+                            date: now,
+                            time: elapsedTime
+                        }
+                    } // otherwise nothing to do
+                } else {
+                    // save it in local storage
+                    best = {
+                        date: now,
+                        time: elapsedTime
+                    }
+                }
+                localStorage.setItem(Game.LB_KEYS[this.difficulty], JSON.stringify(best));
+            }
+
             let i = 100;
             let index = 1;
             for (let shape of this.currentLevel.grid.shapes) {
@@ -153,7 +200,6 @@ module OCT {
                     shape.pop(this.currentLevel.grid.lastColorMoved);
                 }, i * index++);
             }
-            console.log(this.currentLevel.difficulty);
 
             setTimeout(() => {
                 this._displayNextButton();
