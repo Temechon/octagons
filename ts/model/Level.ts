@@ -57,7 +57,22 @@ module OCT {
             for (let obj of result) {
                 let index = parseInt(obj.id);
                 g.shapes[index].setAt(obj.x + 150 * ratio, obj.y + this.grid.y);
+            }
 
+            // Check if all shapes are visible
+            for (let shape of g.shapes) {
+                if (shape.top < 0 || shape.top > this.game.height - shape.heightPx) {
+                    shape.top = this.game.rnd.integerInRange(0, this.game.height - shape.heightPx);
+                }
+                if (shape.left < 0 || shape.left > this.game.width - shape.widthPx) {
+                    shape.left = this.game.rnd.integerInRange(0, this.game.width - shape.widthPx);
+                }
+                if (shape.right < shape.widthPx || shape.right > this.game.width) {
+                    shape.right = this.game.rnd.integerInRange(shape.widthPx, this.game.width);
+                }
+                if (shape.bottom < shape.heightPx || shape.bottom > this.game.height) {
+                    shape.bottom = this.game.rnd.integerInRange(shape.heightPx, this.game.height);
+                }
             }
         }
 
