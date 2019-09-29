@@ -8,7 +8,7 @@ module OCT {
 
 
         /** Number of shapes for each difficulty */
-        public static DIFFICULTY = [8, 11, 12, 14];
+        public static DIFFICULTY = [8, 11, 12, 14, 16];
 
         constructor(private game: Phaser.Game) {
 

@@ -178,14 +178,18 @@ module OCT {
                 "#AC6C82",
                 "#DA727E",
                 "#DF5A49",
+                "#F26101",
 
                 "#E27A3F",
                 "#FFBC67",
                 "#EFC94C",
+                "#FFD393",
 
+                "#42826C",
                 "#45B29D",
                 "#00ADA7",
-                "#85DB18"
+                "#85DB18",
+
             ]
 
             Helpers.shuffle(colors);
@@ -442,14 +446,58 @@ module OCT {
         }
 
         public checkVictory(): boolean {
-            let epsilon = 0.1;
-            let res = true;
 
-            for (let s of this.shapes) {
-                s.updateTransform();
-                res = res && Phaser.Point.distance(this.worldPosition, s.worldPosition) < epsilon;
+            // Check if each shape is in the grid 
+            for (let i = 0; i < this.row; i++) {
+                for (let j = 0; j < this.col; j++) {
+                    let oct = this.getOctagon(i, j);
+                    if (oct === null) {
+                        continue;
+                    }
+
+                    let count = [];
+                    for (let s of this.shapes) {
+                        s.updateTransform();
+                        for (let os of s.octagons) {
+                            os.updateTransform();
+                            let dist = Phaser.Point.distance(os.worldPosition, oct.worldPosition)
+
+                            if (dist < 0.1) {
+                                count.push(os);
+                            }
+                        }
+                    }
+                    if (count.length !== 1) {
+                        return false;
+                    }
+                }
             }
-            return res;
+            for (let i = 0; i < this.row; i++) {
+                for (let j = 0; j < this.col; j++) {
+                    let diams = this.getDiamond(i, j);
+                    if (diams === null) {
+                        continue;
+                    }
+
+                    let count = [];
+                    for (let s of this.shapes) {
+                        s.updateTransform();
+                        for (let ds of s.diamonds) {
+                            ds.updateTransform();
+                            let dist = Phaser.Point.distance(ds.worldPosition, diams.worldPosition)
+
+                            if (dist < 0.1) {
+                                count.push(ds);
+                            }
+                        }
+                    }
+                    if (count.length !== 1) {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
         }
 
         public checkOverlap() {

@@ -14,7 +14,8 @@ module OCT {
             "octagon.lb.easy.best",
             "octagon.lb.medium.best",
             "octagon.lb.hard.best",
-            "octagon.lb.hardest.best"
+            "octagon.lb.hardest.best",
+            "octagon.lb.insane.best"
         ];
         public static NUMBER_OF_GAMES = "octagon.number.games";
 

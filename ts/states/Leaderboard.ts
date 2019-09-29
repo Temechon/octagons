@@ -18,18 +18,20 @@ module OCT {
             // g.destroy();
 
             // LOGO
-            let cup = this.game.add.sprite(this.game.width / 2, 300 * ratio, 'cup');
+            let cup = this.game.add.sprite(this.game.width / 2, 200 * ratio, 'cup');
+            cup.scale.multiply(0.75, 0.75);
 
             let colors = [
                 "#FFBC67",
                 "#6DBCDB",
                 "#FC4349",
-                "#2C3E50"
+                "#2C3E50",
+                "#685C79"
             ]
 
             let width = 800 * ratio;
             let height = 200 * ratio;
-            let y = cup.y + 400 * ratio;
+            let y = cup.y + 300 * ratio;
 
             // EASY
             {
@@ -127,6 +129,30 @@ module OCT {
             }
             y += 220 * ratio;
 
+            // INSANE
+            {
+                let bestHard = JSON.parse(localStorage.getItem(Game.LB_KEYS[4]));
+                let durationText;
+                let dateText;
+                let color = "#cecece";
+
+                if (bestHard) {
+                    let duration = moment.duration(parseInt(bestHard.time))
+                    if (duration.minutes() !== 0) {
+                        durationText = `${duration.minutes()}m ${duration.seconds()}s`;
+                    } else {
+                        durationText = `       ${duration.seconds()}s`;
+                    }
+                    dateText = moment(bestHard.date).fromNow();
+                    color = colors[4];
+                }
+
+                let backMedium = this.createBackground(color, width, height, "Insane", "button.insane", dateText, durationText);
+                backMedium.x = this.game.world.centerX;
+                backMedium.y = y;
+            }
+            y += 220 * ratio;
+
 
             // BACK HOME
             let backButton = this.game.add.sprite(this.game.world.centerX, this.game.height - 200 * ratio, 'button.back');
@@ -190,7 +216,7 @@ module OCT {
 
             // Time
             style = { font: Helpers.font(65 * 1 / ratio, 'KeepCalm'), fill: "#fff", align: "center" };
-            let timeText = this.game.add.text(75, 0, time, style);
+            let timeText = this.game.add.text(120, 0, time, style);
             timeText.anchor.set(0, 0.5);
             sprite.addChild(timeText);
 

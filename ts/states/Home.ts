@@ -36,7 +36,8 @@ module OCT {
                 "#FFBC67",
                 "#6DBCDB",
                 "#FC4349",
-                "#2C3E50"
+                "#2C3E50",
+                "#685C79"
             ]
 
             // * Play
@@ -71,6 +72,14 @@ module OCT {
             hardestbutton.y = hardbutton.y + 170 * ratio;
             hardestbutton.onInputDown = () => {
                 this.game.state.start('game', true, false, { difficulty: 3 });
+            };
+
+            color = Phaser.Color.hexToColor(colors[4]).color
+            let insaneButton = new HomeButton(this.game, { w: 700 * ratio, h: 130 * ratio }, color, "Insane", "button.insane", 45);
+            insaneButton.x = this.game.width / 2;
+            insaneButton.y = hardestbutton.y + 170 * ratio;
+            insaneButton.onInputDown = () => {
+                this.game.state.start('game', true, false, { difficulty: 4 });
             };
 
 
