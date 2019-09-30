@@ -18,7 +18,7 @@ module OCT {
             // g.destroy();
 
             // LOGO
-            let logo = this.game.add.sprite(this.game.width / 2 + 25 * ratio, 200 * ratio, 'logo');
+            let logo = this.game.add.sprite(this.game.width / 2, 200 * ratio, 'logo');
 
             let style = { font: Helpers.font(30, 'KeepCalm'), fill: "#BABABA", align: "center" };
             // Levels done
