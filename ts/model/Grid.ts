@@ -311,7 +311,7 @@ module OCT {
         /**
          * Returns the octagon the nearest of the screen position given in parameter
          */
-        public getNearestOctagon(pointer: { x: number, y: number }): Octagon {
+        public getNearestGeometry(pointer: { x: number, y: number }): Geometry {
             let minDist = Number.MAX_VALUE;
             let nearest = null;
             for (let i = 0; i < this.row; i++) {
@@ -322,6 +322,18 @@ module OCT {
                         if (dist < minDist) {
                             minDist = dist;
                             nearest = oct
+                        }
+                    }
+                }
+            }
+            for (let i = 0; i < this.row; i++) {
+                for (let j = 0; j < this.col; j++) {
+                    let diam = this.getDiamond(i, j);
+                    if (diam) {
+                        let dist = Phaser.Math.distanceSq(diam.worldPosition.x, diam.worldPosition.y, pointer.x, pointer.y);
+                        if (dist < minDist) {
+                            minDist = dist;
+                            nearest = diam
                         }
                     }
                 }

@@ -60,15 +60,15 @@ module OCT {
 
                     // Try to set up its position on the grid
                     // get octagon in the grid that 
-                    let octa = this.grid.getNearestOctagon({ x: pi.x, y: pi.y });
-                    octa.updateTransform();
+                    let geo = this.grid.getNearestGeometry({ x: pi.x, y: pi.y });
+                    geo.updateTransform();
 
                     // selected octagon in the shape
-                    let shapeOcta = this.getNearestOctagon({ x: pi.x, y: pi.y });
-                    shapeOcta.updateTransform();
+                    let shapeGeo = this.getNearestGeometry({ x: pi.x, y: pi.y });
+                    shapeGeo.updateTransform();
 
-                    this.x += octa.worldPosition.x - shapeOcta.worldPosition.x;
-                    this.y += octa.worldPosition.y - shapeOcta.worldPosition.y;
+                    this.x += geo.worldPosition.x - shapeGeo.worldPosition.x;
+                    this.y += geo.worldPosition.y - shapeGeo.worldPosition.y;
                 }
 
                 this.grid.lastColorMoved = this.color;
@@ -173,7 +173,7 @@ module OCT {
         /**
          * Returns the octagon the nearest of the screen position given in parameter
          */
-        public getNearestOctagon(pointer: { x: number, y: number }): Octagon {
+        public getNearestGeometry(pointer: { x: number, y: number }): Geometry {
             let minDist = Number.MAX_VALUE;
             let nearest = null;
             for (let oct of this.octagons) {
@@ -181,6 +181,13 @@ module OCT {
                 if (dist < minDist) {
                     minDist = dist;
                     nearest = oct
+                }
+            }
+            for (let diam of this.diamonds) {
+                let dist = Phaser.Math.distanceSq(diam.worldPosition.x, diam.worldPosition.y, pointer.x, pointer.y);
+                if (dist < minDist) {
+                    minDist = dist;
+                    nearest = diam
                 }
             }
             return nearest;
