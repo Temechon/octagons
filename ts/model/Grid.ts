@@ -188,9 +188,14 @@ module OCT {
                 "#42826C",
                 "#45B29D",
                 "#00ADA7",
-                "#85DB18",
-
+                "#85DB18"
             ]
+
+            if (localStorage.getItem(Home.COLOR_MODE) === 'dark') {
+                for (let i = 0; i < colors.length; i++) {
+                    colors[i] = Helpers.shadeBlendConvert(Phaser.Color.hexToColor(colors[i]).color, -0.2, true) as string;
+                }
+            }
 
             Helpers.shuffle(colors);
 

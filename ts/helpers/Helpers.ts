@@ -77,7 +77,7 @@ module OCT {
          * @param color Hex color
          * @param percent 
          */
-        public static _shadeBlendConvert = function (p: number, from, to?) {
+        private static _shadeBlendConvert = function (p: number, from, to?) {
             if (typeof (p) != "number" || p < -1 || p > 1 || typeof (from) != "string" || (from[0] != 'r' && from[0] != '#') || (to && typeof (to) != "string")) return null; //ErrorCheck
             if (!this.sbcRip) this.sbcRip = (d) => {
                 let l = d.length, RGB = {};

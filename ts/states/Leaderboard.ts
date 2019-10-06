@@ -7,7 +7,12 @@ module OCT {
 
         create() {
 
-            this.game.stage.backgroundColor = '#F2F2F2';
+            let colorMode = localStorage.getItem(Home.COLOR_MODE);
+            if (colorMode === 'light') {
+                this.game.stage.backgroundColor = '#F2F2F2';
+            } else {
+                this.game.stage.backgroundColor = '#121212';
+            }
 
             // * Debug Bounds
             // var graphics = this.game.add.graphics(0, 0);

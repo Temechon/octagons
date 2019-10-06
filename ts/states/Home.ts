@@ -2,12 +2,20 @@ module OCT {
 
     export class Home extends Phaser.State {
 
+        /** Can be 'dark' or 'light' */
+        public static COLOR_MODE: string = "octagon.colormode";
 
         create() {
 
             APIHelper.sendStat('initalized', 1);
 
-            this.game.stage.backgroundColor = '#F2F2F2';
+            let colorMode = localStorage.getItem(Home.COLOR_MODE);
+            if (colorMode === 'light') {
+                this.game.stage.backgroundColor = '#F2F2F2';
+            } else {
+                this.game.stage.backgroundColor = '#121212';
+            }
+
 
             // * Debug Bounds
             // var graphics = this.game.add.graphics(0, 0);
@@ -31,6 +39,27 @@ module OCT {
             style.font = Helpers.font(75, 'KeepCalm')
             levelsDone = this.game.add.text(this.game.width / 2, levelsDone.y + levelsDone.height / 2 + 50 * ratio, numberOfLevels.toString(), style);
             levelsDone.anchor.set(0.5);
+
+            // Dark mode
+            let colorModeButton = this.game.add.sprite(this.game.width - 150 * ratio, 150 * ratio, 'button.darkmode');
+            colorModeButton.inputEnabled = true;
+            colorModeButton.events.onInputDown.add(() => {
+                colorModeButton.scale.multiply(0.85, 0.85);
+            });
+
+            colorModeButton.events.onInputUp.add(() => {
+                colorModeButton.scale.set(ratio, ratio);
+                this.game.time.events.add(100, () => {
+                    if (colorMode === 'light') {
+                        this.game.stage.backgroundColor = '#121212';
+                        localStorage.setItem(Home.COLOR_MODE, 'dark');
+                    } else {
+                        this.game.stage.backgroundColor = '#F2F2F2';
+                        localStorage.setItem(Home.COLOR_MODE, 'light');
+                    }
+                });
+            });
+
 
             let colors = [
                 "#FFBC67",

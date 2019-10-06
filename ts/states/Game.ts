@@ -50,12 +50,16 @@ module OCT {
 
             // * Debug Bounds
             var graphics = this.game.add.graphics(0, 0);
-            graphics.beginFill(0xFFFFff);
+            if (localStorage.getItem(Home.COLOR_MODE) === 'dark') {
+                graphics.beginFill(0x000000);
+            } else {
+                graphics.beginFill(0xFFFFFF);
+            }
             // graphics.fillAlpha = 0.25;
             let deltax = 100 * ratio;
             let deltay = 150 * ratio;
-            graphics.drawRoundedRect(deltax, deltay, this.game.width - deltax * 2, this.game.height - deltay * 2, 50 * ratio);
-            graphics.drawRoundedRect(this.game.world.centerX - 250 * ratio, deltay - 100 * ratio, 500 * ratio, 300 * ratio, 30 * ratio);
+            // graphics.drawRoundedRect(deltax, deltay, this.game.width - deltax * 2, this.game.height - deltay * 2, 50 * ratio);
+            graphics.drawRoundedRect(this.game.world.centerX - 250 * ratio, deltay - 100 * ratio, 500 * ratio, 130 * ratio, 30 * ratio);
             graphics.endFill();
 
             let style = { font: Helpers.font(60, 'KeepCalm'), fill: "#E7E7E7", align: "center" };

@@ -48,6 +48,9 @@ module OCT {
             this.load.image('button.hardest', 'assets/hardest.png');
             this.load.image('button.insane', 'assets/insane.png');
 
+            this.load.image('button.lightmode', 'assets/lightmode.png');
+            this.load.image('button.darkmode', 'assets/darkmode.png');
+
             this.load.image('button.back', 'assets/back.png');
             this.load.image('button.leaderboard', 'assets/leaderboard.png');
 
@@ -64,7 +67,13 @@ module OCT {
         }
 
         create() {
-            this.game.stage.backgroundColor = '#F2F2F2';
+
+            let colorMode = localStorage.getItem(Home.COLOR_MODE);
+            if (colorMode === 'light') {
+                this.game.stage.backgroundColor = '#F2F2F2';
+            } else {
+                this.game.stage.backgroundColor = '#121212';
+            }
 
             this.game.add = new ScalingGameObjectFactory(this.game);
 
