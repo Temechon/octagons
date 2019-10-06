@@ -53,9 +53,13 @@ module OCT {
                     if (colorMode === 'light') {
                         this.game.stage.backgroundColor = '#121212';
                         localStorage.setItem(Home.COLOR_MODE, 'dark');
+                        colorMode = 'dark';
+                        colorModeButton.loadTexture("button.lightmode")
                     } else {
                         this.game.stage.backgroundColor = '#F2F2F2';
                         localStorage.setItem(Home.COLOR_MODE, 'light');
+                        colorMode = 'light';
+                        colorModeButton.loadTexture("button.darkmode")
                     }
                 });
             });
